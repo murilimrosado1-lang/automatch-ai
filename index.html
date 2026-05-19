@@ -1,0 +1,1523 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="theme-color" content="#0D0F14">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="AutoMatch AI">
+<meta name="description" content="O primeiro app onde a IA negocia a venda do seu veículo por você.">
+<meta property="og:title" content="AutoMatch AI — A IA que vende seu carro">
+<meta property="og:description" content="Cadastre seu veículo. A IA negocia. Você aprova.">
+<meta property="og:type" content="website">
+<title>AutoMatch AI — A IA que negocia seu veículo</title>
+<link rel="manifest" href="#" id="manifestLink">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cabinet+Grotesk:wght@400;500;700;800;900&family=Instrument+Sans:wght@400;500;600&display=swap');
+
+:root {
+  --ink: #0D0F14;
+  --ink2: #111318;
+  --ink3: #1A1D25;
+  --gold: #E8A020;
+  --gold2: #F5B93A;
+  --green: #1DB87A;
+  --red: #E8433A;
+  --blue: #2D7EF8;
+  --text: #E8EAF0;
+  --text2: #9CA3AF;
+  --border: rgba(255,255,255,0.07);
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; }
+body { font-family: 'Instrument Sans', sans-serif; background: var(--ink); color: var(--text); overflow-x: hidden; }
+
+/* ── NAV ── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 16px 40px;
+  background: rgba(13,15,20,0.85); backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+}
+.nav-logo { font-family: 'Cabinet Grotesk', sans-serif; font-size: 22px; font-weight: 900; color: #fff; }
+.nav-logo em { color: var(--gold); font-style: normal; }
+.nav-links { display: flex; align-items: center; gap: 32px; }
+.nav-links a { color: var(--text2); text-decoration: none; font-size: 14px; font-weight: 500; transition: color .2s; }
+.nav-links a:hover { color: #fff; }
+.nav-cta { background: var(--gold); color: var(--ink); padding: 9px 22px; border-radius: 10px; font-weight: 700; font-size: 14px; text-decoration: none; transition: all .2s; }
+.nav-cta:hover { background: var(--gold2); transform: translateY(-1px); color: var(--ink) !important; }
+
+/* ── HERO ── */
+.hero {
+  min-height: 100vh;
+  display: flex; align-items: center; justify-content: center;
+  text-align: center;
+  padding: 120px 20px 80px;
+  position: relative; overflow: hidden;
+}
+.hero-bg {
+  position: absolute; inset: 0; z-index: 0;
+  background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(232,160,32,0.08) 0%, transparent 70%),
+              radial-gradient(ellipse 60% 40% at 80% 80%, rgba(29,184,122,0.05) 0%, transparent 60%);
+}
+.hero-grid {
+  position: absolute; inset: 0;
+  background-image: linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+  background-size: 60px 60px;
+  mask-image: radial-gradient(ellipse at center, black 30%, transparent 80%);
+}
+.hero-content { position: relative; z-index: 1; max-width: 780px; }
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: rgba(232,160,32,0.1); border: 1px solid rgba(232,160,32,0.25);
+  color: var(--gold); font-size: 12px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase;
+  padding: 6px 16px; border-radius: 20px; margin-bottom: 28px;
+}
+.hero-badge-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--gold); animation: blink 2s infinite; }
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+.hero h1 {
+  font-family: 'Cabinet Grotesk', sans-serif;
+  font-size: clamp(40px, 8vw, 80px);
+  font-weight: 900; line-height: 1.05; letter-spacing: -2px;
+  color: #fff; margin-bottom: 24px;
+}
+.hero h1 span { color: var(--gold); }
+.hero p { font-size: clamp(16px, 2.5vw, 20px); color: var(--text2); line-height: 1.6; margin-bottom: 44px; max-width: 560px; margin-left: auto; margin-right: auto; }
+.hero-btns { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+.btn-hero-primary {
+  background: var(--gold); color: var(--ink);
+  padding: 16px 36px; border-radius: 14px;
+  font-family: 'Cabinet Grotesk', sans-serif; font-size: 16px; font-weight: 800;
+  text-decoration: none; transition: all .2s; display: inline-flex; align-items: center; gap: 8px;
+}
+.btn-hero-primary:hover { background: var(--gold2); transform: translateY(-2px); box-shadow: 0 20px 40px rgba(232,160,32,0.25); }
+.btn-hero-ghost {
+  background: transparent; color: var(--text);
+  padding: 16px 36px; border-radius: 14px; border: 1.5px solid var(--border);
+  font-family: 'Cabinet Grotesk', sans-serif; font-size: 16px; font-weight: 700;
+  text-decoration: none; transition: all .2s;
+}
+.btn-hero-ghost:hover { border-color: rgba(255,255,255,0.2); background: rgba(255,255,255,0.04); }
+
+/* ── STATS ── */
+.stats { display: flex; justify-content: center; gap: 60px; padding: 60px 40px; flex-wrap: wrap; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); background: var(--ink2); }
+.stat-item { text-align: center; }
+.stat-num { font-family: 'Cabinet Grotesk', sans-serif; font-size: 42px; font-weight: 900; color: var(--gold); line-height: 1; margin-bottom: 6px; }
+.stat-label { font-size: 14px; color: var(--text2); }
+
+/* ── HOW ── */
+.section { padding: 100px 40px; max-width: 1100px; margin: 0 auto; }
+.section-tag { font-size: 11px; font-weight: 700; color: var(--gold); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 14px; }
+.section-title { font-family: 'Cabinet Grotesk', sans-serif; font-size: clamp(28px, 5vw, 48px); font-weight: 800; color: #fff; line-height: 1.15; letter-spacing: -1px; margin-bottom: 16px; }
+.section-sub { font-size: 17px; color: var(--text2); line-height: 1.6; max-width: 560px; margin-bottom: 60px; }
+
+.steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 24px; }
+.step-card {
+  background: var(--ink3); border: 1px solid var(--border);
+  border-radius: 20px; padding: 28px;
+  transition: border-color .3s, transform .3s;
+}
+.step-card:hover { border-color: rgba(232,160,32,0.3); transform: translateY(-4px); }
+.step-num { font-family: 'Cabinet Grotesk', sans-serif; font-size: 48px; font-weight: 900; color: rgba(232,160,32,0.15); margin-bottom: 16px; line-height: 1; }
+.step-icon { font-size: 32px; margin-bottom: 14px; }
+.step-title { font-family: 'Cabinet Grotesk', sans-serif; font-size: 18px; font-weight: 800; color: #fff; margin-bottom: 8px; }
+.step-desc { font-size: 14px; color: var(--text2); line-height: 1.6; }
+
+/* ── FEATURES ── */
+.features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+.feat-card {
+  background: var(--ink3); border: 1px solid var(--border);
+  border-radius: 20px; padding: 28px;
+  transition: all .3s;
+}
+.feat-card:hover { border-color: rgba(232,160,32,0.25); }
+.feat-card.highlight { background: linear-gradient(135deg, rgba(232,160,32,0.08), rgba(29,184,122,0.05)); border-color: rgba(232,160,32,0.2); }
+.feat-icon { width: 48px; height: 48px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 24px; margin-bottom: 18px; }
+.feat-title { font-family: 'Cabinet Grotesk', sans-serif; font-size: 18px; font-weight: 800; color: #fff; margin-bottom: 8px; }
+.feat-desc { font-size: 14px; color: var(--text2); line-height: 1.6; }
+.feat-tag { display: inline-block; margin-top: 14px; font-size: 11px; font-weight: 700; color: var(--gold); background: rgba(232,160,32,0.1); padding: 3px 10px; border-radius: 20px; }
+
+/* ── PRICING ── */
+.pricing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; max-width: 900px; margin: 0 auto; }
+.price-card {
+  background: var(--ink3); border: 1px solid var(--border);
+  border-radius: 24px; padding: 36px;
+}
+.price-card.featured { background: linear-gradient(135deg, rgba(232,160,32,0.1), rgba(29,184,122,0.05)); border-color: rgba(232,160,32,0.35); position: relative; }
+.price-badge { position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: var(--gold); color: var(--ink); font-size: 11px; font-weight: 800; padding: 4px 14px; border-radius: 20px; letter-spacing: 0.5px; white-space: nowrap; }
+.price-role { font-size: 12px; font-weight: 700; color: var(--text2); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 12px; }
+.price-main { font-family: 'Cabinet Grotesk', sans-serif; font-size: 42px; font-weight: 900; color: var(--gold); line-height: 1; margin-bottom: 6px; }
+.price-main span { font-size: 18px; color: var(--text2); font-weight: 400; }
+.price-desc { font-size: 14px; color: var(--text2); margin-bottom: 28px; line-height: 1.5; }
+.price-items { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+.price-items li { display: flex; align-items: center; gap: 10px; font-size: 14px; color: var(--text); }
+.price-items li::before { content: '✓'; color: var(--green); font-weight: 700; flex-shrink: 0; }
+
+/* ── NEGOTIATORS ── */
+.nego-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; }
+.nego-card {
+  background: var(--ink3); border: 1px solid var(--border);
+  border-radius: 16px; padding: 22px;
+  transition: all .3s;
+}
+.nego-card:hover { border-color: rgba(232,160,32,0.3); transform: translateY(-3px); }
+.nego-name { font-family: 'Cabinet Grotesk', sans-serif; font-size: 15px; font-weight: 800; color: #fff; margin-bottom: 4px; }
+.nego-role { font-size: 11px; color: var(--gold); font-weight: 700; letter-spacing: 0.5px; margin-bottom: 10px; }
+.nego-tech { font-size: 12px; color: var(--text2); line-height: 1.5; }
+
+/* ── CTA FINAL ── */
+.cta-section {
+  text-align: center; padding: 100px 40px;
+  background: linear-gradient(135deg, rgba(232,160,32,0.06), rgba(29,184,122,0.04));
+  border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+}
+.cta-section h2 { font-family: 'Cabinet Grotesk', sans-serif; font-size: clamp(28px, 5vw, 52px); font-weight: 900; color: #fff; letter-spacing: -1px; margin-bottom: 18px; }
+.cta-section h2 em { color: var(--gold); font-style: normal; }
+.cta-section p { font-size: 18px; color: var(--text2); margin-bottom: 40px; }
+.pwa-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(29,184,122,0.1); border: 1px solid rgba(29,184,122,0.25); color: var(--green); font-size: 12px; font-weight: 700; padding: 6px 16px; border-radius: 20px; margin-bottom: 30px; }
+
+/* ── APP SECTION ── */
+.app-section {
+  padding: 100px 20px;
+  background: var(--ink2);
+  border-top: 1px solid var(--border);
+}
+.app-section-inner { max-width: 520px; margin: 0 auto; }
+.app-header { text-align: center; margin-bottom: 40px; }
+.app-frame {
+  background: var(--ink3); border: 1px solid var(--border);
+  border-radius: 24px; overflow: hidden;
+  box-shadow: 0 40px 80px rgba(0,0,0,0.5);
+}
+
+/* ── FOOTER ── */
+footer {
+  padding: 50px 40px 30px;
+  border-top: 1px solid var(--border);
+  display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px;
+}
+.footer-logo { font-family: 'Cabinet Grotesk', sans-serif; font-size: 20px; font-weight: 900; color: #fff; }
+.footer-logo em { color: var(--gold); font-style: normal; }
+.footer-text { font-size: 13px; color: var(--text2); }
+.footer-links { display: flex; gap: 24px; }
+.footer-links a { font-size: 13px; color: var(--text2); text-decoration: none; }
+.footer-links a:hover { color: #fff; }
+
+/* ── MOBILE ── */
+@media (max-width: 768px) {
+  nav { padding: 14px 20px; }
+  .nav-links { display: none; }
+  .stats { gap: 30px; padding: 40px 20px; }
+  .section { padding: 70px 20px; }
+  footer { padding: 40px 20px 24px; flex-direction: column; text-align: center; }
+  .footer-links { justify-content: center; }
+}
+
+/* ── APP EMBED STYLES ── */
+#appRoot { font-family: 'Instrument Sans', system-ui, sans-serif; }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">Auto<em>Match</em> AI</div>
+  <div class="nav-links">
+    <a href="#" onclick="toggleSection('vendedor'); return false;" id="nav-vendedor">🚗 Sou Vendedor</a>
+    <a href="#" onclick="toggleSection('comprador'); return false;" id="nav-comprador">🔍 Sou Comprador</a>
+    <a href="#precos">Preços</a>
+    <a href="#app" class="nav-cta">Testar grátis →</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-content">
+    <div class="hero-badge"><div class="hero-badge-dot"></div>MVP em Teste Público</div>
+    <h1>A IA que <span>negocia</span><br>seu veículo por você</h1>
+    <p>Cadastre seu carro ou moto. A inteligência artificial negocia com compradores usando as técnicas dos maiores vendedores do mundo. Você só aprova o negócio.</p>
+    <div class="hero-btns">
+      <a href="#app" class="btn-hero-primary">🚗 Testar o App agora</a>
+      <a href="#como-funciona" class="btn-hero-ghost">Ver como funciona</a>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats">
+  <div class="stat-item"><div class="stat-num">R$0</div><div class="stat-label">Para anunciar ou buscar veículos</div></div>
+  <div class="stat-item"><div class="stat-num">3%</div><div class="stat-label">Comissão só no fechamento — 1,5% cada lado</div></div>
+  <div class="stat-item"><div class="stat-num">2 IAs</div><div class="stat-label">Negociando ao mesmo tempo — uma por você</div></div>
+  <div class="stat-item"><div class="stat-num">100%</div><div class="stat-label">Automático — você só aprova o acordo final</div></div>
+</div>
+
+<!-- VENDEDOR SECTION -->
+<div id="vendedor" style="display:none;background:var(--ink);border-top:1px solid var(--border)">
+<div class="section">
+  <div style="margin-bottom:14px"><div style="background:rgba(232,160,32,0.12);border:1.5px solid rgba(232,160,32,0.3);border-radius:14px;padding:10px 18px;display:inline-block;font-family:'Cabinet Grotesk',sans-serif;font-size:13px;font-weight:800;color:var(--gold)">🚗 Sou Vendedor</div></div>
+  <div class="section-title">Anuncie uma vez.<br>A IA vende por você.</div>
+  <div class="section-sub">Chega de negociar pelo WhatsApp e receber ofertas ridículas. A IA defende o seu preço com argumentos profissionais.</div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:40px">
+    <div style="background:rgba(232,160,32,0.06);border:1.5px solid rgba(232,160,32,0.2);border-radius:18px;padding:22px"><div style="font-size:26px;margin-bottom:10px">🔒</div><div style="font-family:'Cabinet Grotesk',sans-serif;font-size:15px;font-weight:800;color:#fff;margin-bottom:6px">Preço mínimo secreto</div><div style="font-size:12px;color:var(--text2);line-height:1.6">Você define o menor valor que aceita. Só a IA sabe. Nenhum comprador vê esse número.</div></div>
+    <div style="background:rgba(232,160,32,0.06);border:1.5px solid rgba(232,160,32,0.2);border-radius:18px;padding:22px"><div style="font-size:26px;margin-bottom:10px">🤖</div><div style="font-family:'Cabinet Grotesk',sans-serif;font-size:15px;font-weight:800;color:#fff;margin-bottom:6px">IA negocia 24h</div><div style="font-size:12px;color:var(--text2);line-height:1.6">Enquanto você trabalha ou dorme, a IA negocia com compradores reais.</div></div>
+    <div style="background:rgba(232,160,32,0.06);border:1.5px solid rgba(232,160,32,0.2);border-radius:18px;padding:22px"><div style="font-size:26px;margin-bottom:10px">🔧</div><div style="font-family:'Cabinet Grotesk',sans-serif;font-size:15px;font-weight:800;color:#fff;margin-bottom:6px">Checklist valoriza o carro</div><div style="font-size:12px;color:var(--text2);line-height:1.6">Marque o estado de cada item. A IA transforma cada ponto positivo em argumento de venda.</div></div>
+    <div style="background:rgba(232,160,32,0.06);border:1.5px solid rgba(232,160,32,0.2);border-radius:18px;padding:22px"><div style="font-size:26px;margin-bottom:10px">✅</div><div style="font-family:'Cabinet Grotesk',sans-serif;font-size:15px;font-weight:800;color:#fff;margin-bottom:6px">Você aprova tudo</div><div style="font-size:12px;color:var(--text2);line-height:1.6">Só paga 1,5% se fechar. Nenhuma cobrança antes do negócio acontecer.</div></div>
+  </div>
+  <a href="#app" class="btn-hero-primary" style="display:inline-flex;font-size:15px;padding:14px 32px">🚗 Quero anunciar meu veículo →</a>
+</div>
+</div>
+
+<!-- COMPRADOR SECTION -->
+<div id="comprador" style="display:none;background:var(--ink2);border-top:1px solid var(--border)">
+<div class="section">
+  <div style="margin-bottom:14px"><div style="background:rgba(29,184,122,0.12);border:1.5px solid rgba(29,184,122,0.3);border-radius:14px;padding:10px 18px;display:inline-block;font-family:'Cabinet Grotesk',sans-serif;font-size:13px;font-weight:800;color:var(--green)">🔍 Sou Comprador</div></div>
+  <div class="section-title">Diga o que quer.<br>A IA negocia o melhor preço.</div>
+  <div class="section-sub">Sem vergonha de pechinchar, sem vendedores agressivos. A IA briga pelo seu dinheiro.</div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:40px">
+    <div style="background:rgba(29,184,122,0.06);border:1.5px solid rgba(29,184,122,0.2);border-radius:18px;padding:22px"><div style="font-size:26px;margin-bottom:10px">💰</div><div style="font-family:'Cabinet Grotesk',sans-serif;font-size:15px;font-weight:800;color:#fff;margin-bottom:6px">Teto máximo secreto</div><div style="font-size:12px;color:var(--text2);line-height:1.6">Você define o máximo que pode pagar. Só a IA sabe. O vendedor nunca vê esse número.</div></div>
+    <div style="background:rgba(29,184,122,0.06);border:1.5px solid rgba(29,184,122,0.2);border-radius:18px;padding:22px"><div style="font-size:26px;margin-bottom:10px">🔎</div><div style="font-family:'Cabinet Grotesk',sans-serif;font-size:15px;font-weight:800;color:#fff;margin-bottom:6px">Relatório técnico grátis</div><div style="font-size:12px;color:var(--text2);line-height:1.6">Antes de fechar você recebe nota técnica do veículo e todos os pontos de atenção.</div></div>
+    <div style="background:rgba(29,184,122,0.06);border:1.5px solid rgba(29,184,122,0.2);border-radius:18px;padding:22px"><div style="font-size:26px;margin-bottom:10px">🔄</div><div style="font-family:'Cabinet Grotesk',sans-serif;font-size:15px;font-weight:800;color:#fff;margin-bottom:6px">Dê seu carro na troca</div><div style="font-size:12px;color:var(--text2);line-height:1.6">Ofereça seu veículo como parte do pagamento. A IA negocia o valor da troca também.</div></div>
+    <div style="background:rgba(29,184,122,0.06);border:1.5px solid rgba(29,184,122,0.2);border-radius:18px;padding:22px"><div style="font-size:26px;margin-bottom:10px">🏦</div><div style="font-family:'Cabinet Grotesk',sans-serif;font-size:15px;font-weight:800;color:#fff;margin-bottom:6px">Financiamento integrado</div><div style="font-size:12px;color:var(--text2);line-height:1.6">Quer financiar? Conectamos você com agentes parceiros com as melhores taxas.</div></div>
+  </div>
+  <a href="#app" class="btn-hero-primary" style="display:inline-flex;font-size:15px;padding:14px 32px;background:var(--green);color:#fff">🔍 Quero comprar um veículo →</a>
+</div>
+</div>
+
+<!-- PREÇOS -->
+<!-- CTA -->
+<div class="cta-section">
+  <div class="pwa-badge">📱 Instale como app no seu celular</div>
+  <h2>Pronto para testar<br>a <em>IA negociadora</em>?</h2>
+  <p>Cadastre seu veículo abaixo e veja a IA negociar ao vivo. É grátis.</p>
+  <button onclick="document.getElementById('app').scrollIntoView({behavior:'smooth'})" class="btn-hero-primary" style="font-size:18px; padding:18px 44px; border:none; cursor:pointer">🚗 Começar agora →</button>
+</div>
+
+<!-- APP EMBED -->
+<div id="app" class="app-section">
+  <div class="app-section-inner">
+    <div class="app-header">
+      <div class="section-tag" style="display:block; text-align:center">MVP ao Vivo</div>
+      <div style="font-family:'Cabinet Grotesk',sans-serif; font-size:28px; font-weight:800; color:#fff; text-align:center; margin-bottom:8px">Teste agora</div>
+      <div style="font-size:14px; color:var(--text2); text-align:center; margin-bottom:20px">A IA negocia de verdade — powered by Claude</div>
+      <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
+        <button onclick="document.getElementById('appRoot').scrollIntoView({behavior:'smooth'})" style="background:var(--gold);color:#0D0F14;border:none;border-radius:12px;padding:13px 26px;font-family:'Cabinet Grotesk',sans-serif;font-size:15px;font-weight:800;cursor:pointer">🚗 Abrir App</button>
+      </div>
+    </div>
+    <div class="app-frame">
+      <div id="appRoot"></div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">Auto<em>Match</em> AI</div>
+  <div class="footer-text">© 2025 AutoMatch AI · MVP em fase de testes</div>
+  <div class="footer-links">
+    <a href="#">Privacidade</a>
+    <a href="#">Termos</a>
+    <a href="#">Contato</a>
+  </div>
+</footer>
+
+<!-- PWA INSTALL BANNER -->
+<div id="installBanner" style="display:none; position:fixed; bottom:20px; left:50%; transform:translateX(-50%); background:var(--ink3); border:1px solid rgba(232,160,32,0.3); border-radius:16px; padding:14px 20px; display:flex; align-items:center; gap:12px; z-index:200; box-shadow:0 20px 40px rgba(0,0,0,0.5); max-width:380px; width:calc(100% - 40px)">
+  <div style="font-size:28px">🚗</div>
+  <div style="flex:1">
+    <div style="font-family:'Cabinet Grotesk',sans-serif; font-size:14px; font-weight:800; color:#fff; margin-bottom:2px">Instalar AutoMatch AI</div>
+    <div style="font-size:12px; color:var(--text2)">Adicione à tela inicial para acesso rápido</div>
+  </div>
+  <button id="installBtn" style="background:var(--gold); color:var(--ink); border:none; border-radius:10px; padding:8px 16px; font-family:inherit; font-size:13px; font-weight:700; cursor:pointer">Instalar</button>
+  <button onclick="document.getElementById('installBanner').style.display='none'" style="background:transparent; border:none; color:var(--text2); cursor:pointer; font-size:18px; padding:4px">×</button>
+</div>
+
+<!-- REACT + APP -->
+<script>
+window.AUTOMATCH_KEY = localStorage.getItem('amk') || '';
+// One-time setup: open site with #YOUR_KEY to activate
+(function(){
+  var h = window.location.hash.replace('#','');
+  if(h && h.startsWith('sk-ant')){
+    localStorage.setItem('amk', h);
+    window.AUTOMATCH_KEY = h;
+    history.replaceState(null, '', window.location.pathname);
+  }
+})();
+</script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+<script>
+const firebaseConfig = {
+  apiKey: "AIzaSyCUXFkntQ2OMR-CYUy5u0-iKkbQqZEA9Bc",
+  authDomain: "automatch-ai-797ed.firebaseapp.com",
+  projectId: "automatch-ai-797ed",
+  storageBucket: "automatch-ai-797ed.firebasestorage.app",
+  messagingSenderId: "1047127507945",
+  appId: "1:1047127507945:web:d7f94030fdd92286940178"
+};
+firebase.initializeApp(firebaseConfig);
+window.fbAuth = firebase.auth();
+window.fbDb = firebase.firestore();
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.2/babel.min.js"></script>
+<script type="text/babel">
+const { useState, useRef, useEffect } = React;
+
+const G="#E8A020",GR="#1DB87A",RD="#E8433A",BL="#2D7EF8";
+const INK="#0D0F14",INK3="#21252F",TX="#E8EAF0",TX2="#9CA3AF",BD="rgba(255,255,255,0.08)";
+const fmt=n=>"R$ "+Number(n).toLocaleString("pt-BR");
+const now=()=>new Date().toLocaleTimeString("pt-BR",{hour:"2-digit",minute:"2-digit"});
+
+const CL=[
+  {id:"pastilhas",icon:"🔴",name:"Pastilhas de freio",km:"Troca: 30k–50k km",sev:"soft",da:500,ds:700},
+  {id:"fluido",icon:"💧",name:"Fluido de freio",km:"Troca recomendada: 30k km",sev:"hard",da:180,ds:280},
+  {id:"cambio",icon:"⚙️",name:"Câmbio (funcionamento)",km:"Civic CVT: atenção após 80k km",sev:"ok",da:2000,ds:8000},
+  {id:"velas",icon:"⚡",name:"Velas de ignição",km:"Troca: 80k–100k km",sev:"ok",da:300,ds:700},
+  {id:"pneus",icon:"🔵",name:"Pneus (4 unidades)",km:"Troca: 40k–60k km",sev:"soft",da:800,ds:1800},
+  {id:"arcond",icon:"❄️",name:"Ar-condicionado",km:"Filtro cabine: 15k–20k km",sev:"soft",da:200,ds:700},
+  {id:"lataria",icon:"🚗",name:"Lataria e pintura",km:"Avaliação visual",sev:null,da:500,ds:2500},
+];
+const SECS=[{l:"🛑 Freios",ids:["pastilhas","fluido"]},{l:"⚙️ Motor",ids:["cambio","velas"]},{l:"🔵 Rodagem",ids:["pneus"]},{l:"❄️ Conforto",ids:["arcond","lataria"]}];
+const STC={nova:GR,bom:BL,atencao:G,substituir:RD};
+const STL={nova:"✨ Recém\ntrocado",bom:"✅ Bom\nestado",atencao:"⚠️ Atenção",substituir:"🔴 Trocar"};
+
+async function ai(sys,msg){
+  const apiKey = window.AUTOMATCH_KEY || localStorage.getItem('automatch_api_key') || localStorage.getItem('amk')||'';
+  const r=await fetch("https://api.anthropic.com/v1/messages",{
+    method:"POST",
+    headers:{"Content-Type":"application/json","anthropic-version":"2023-06-01","anthropic-dangerous-direct-browser-access":"true","x-api-key":apiKey},
+    body:JSON.stringify({model:"claude-sonnet-4-5",max_tokens:200,system:sys,messages:[{role:"user",content:msg}]})
+  });
+  const d=await r.json();
+  if(!r.ok)throw new Error(d?.error?.message||`HTTP ${r.status}`);
+  const b=d.content?.find(x=>x.type==="text");
+  if(!b?.text)throw new Error("Sem texto");
+  return b.text.trim();
+}
+
+function xp(t,fb){
+  for(const m of [...t.matchAll(/R\$\s*([\d.,]+)/g)]){
+    const n=Math.round(parseFloat(m[1].replace(/\./g,"").replace(",",".")));
+    if(n>10000&&n<2000000)return n;
+  }
+  return fb;
+}
+
+const base={background:INK,color:TX,fontFamily:"'Instrument Sans',system-ui,sans-serif",display:"flex",flexDirection:"column",minHeight:500};
+const inp={width:"100%",background:INK3,border:`1.5px solid ${BD}`,borderRadius:10,padding:"10px 12px",fontFamily:"inherit",fontSize:13,color:"#fff",outline:"none",boxSizing:"border-box"};
+const card={background:"rgba(255,255,255,0.04)",border:`1px solid ${BD}`,borderRadius:14,padding:15,marginBottom:12};
+const pb=(bg,c,dis)=>({width:"100%",padding:12,border:"none",borderRadius:11,fontFamily:"inherit",fontSize:14,fontWeight:700,cursor:dis?"not-allowed":"pointer",background:bg,color:c,opacity:dis?0.4:1,marginBottom:7});
+
+function Top({label,step}){
+  return(
+    <div>
+      <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",padding:"12px 16px",borderBottom:`1px solid ${BD}`,background:"rgba(13,15,20,0.97)"}}>
+        <div style={{fontSize:17,fontWeight:900,color:"#fff",fontFamily:"'Cabinet Grotesk',sans-serif"}}>Auto<span style={{color:G}}>Match</span> AI</div>
+        <div style={{fontSize:11,fontWeight:700,color:G,background:"rgba(232,160,32,0.12)",border:"1px solid rgba(232,160,32,0.25)",padding:"4px 10px",borderRadius:20}}>{label}</div>
+      </div>
+      <div style={{display:"flex",gap:4,padding:"8px 16px 10px"}}>
+        {["Cadastro","Checklist","Match","Negociação","Resultado"].map((s,i)=>(
+          <div key={s} style={{flex:1,height:3,borderRadius:3,background:i<step?GR:i===step?G:INK3}}/>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function Cadastro({onNext}){
+  const [v,sv]=useState({marca:"Honda",modelo:"Civic",ano:"2021",km:"52000",cambio:"CVT",comb:"Flex",preco:"98000",min:"89000"});
+  const [troca,st]=useState(false);
+  const [tmin,stm]=useState("25000");
+  const set=k=>e=>sv(p=>({...p,[k]:e.target.value}));
+  const lbl={display:"block",fontSize:10,fontWeight:700,color:TX2,letterSpacing:1,textTransform:"uppercase",marginBottom:5};
+  return(
+    <div style={base}>
+      <Top label="Cadastro" step={0}/>
+      <div style={{flex:1,overflowY:"auto",padding:"16px 16px 8px"}}>
+        <div style={{fontSize:20,fontWeight:800,color:"#fff",marginBottom:3,fontFamily:"'Cabinet Grotesk',sans-serif"}}>Cadastrar Veículo</div>
+        <div style={{fontSize:12,color:TX2,marginBottom:16}}>Preencha os dados. A IA negocia por você.</div>
+        <div style={{display:"flex",gap:8,marginBottom:10}}>
+          <div style={{flex:1}}><label style={lbl}>Marca</label><select style={inp} value={v.marca} onChange={set("marca")}>{["Honda","Toyota","Volkswagen","Hyundai","Chevrolet","Ford","Jeep","Fiat"].map(x=><option key={x}>{x}</option>)}</select></div>
+          <div style={{flex:1}}><label style={lbl}>Modelo</label><input style={inp} value={v.modelo} onChange={set("modelo")}/></div>
+        </div>
+        <div style={{display:"flex",gap:8,marginBottom:10}}>
+          <div style={{flex:1}}><label style={lbl}>Ano</label><input style={inp} type="number" value={v.ano} onChange={set("ano")}/></div>
+          <div style={{flex:1}}><label style={lbl}>KM</label><input style={inp} type="number" value={v.km} onChange={set("km")}/></div>
+        </div>
+        <div style={{display:"flex",gap:8,marginBottom:10}}>
+          <div style={{flex:1}}><label style={lbl}>Câmbio</label><select style={inp} value={v.cambio} onChange={set("cambio")}>{["CVT","Automático","Manual"].map(x=><option key={x}>{x}</option>)}</select></div>
+          <div style={{flex:1}}><label style={lbl}>Combustível</label><select style={inp} value={v.comb} onChange={set("comb")}>{["Flex","Gasolina","Diesel","Elétrico"].map(x=><option key={x}>{x}</option>)}</select></div>
+        </div>
+        <div style={{marginBottom:10}}><label style={lbl}>Preço pedido (R$)</label><input style={inp} type="number" value={v.preco} onChange={set("preco")}/></div>
+        <div style={{background:"rgba(232,160,32,0.06)",border:"1.5px solid rgba(232,160,32,0.2)",borderRadius:12,padding:13,marginBottom:12}}>
+          <div style={{fontSize:10,fontWeight:700,color:G,marginBottom:2}}>🔒 Preço mínimo — só a IA vê</div>
+          <div style={{fontSize:10,color:"rgba(232,160,32,0.6)",marginBottom:8}}>A IA nunca aceita abaixo deste valor.</div>
+          <input style={{...inp,background:"rgba(0,0,0,0.3)",border:"1.5px solid rgba(232,160,32,0.3)"}} type="number" value={v.min} onChange={set("min")}/>
+        </div>
+        <div style={card}>
+          <div style={{fontSize:10,fontWeight:700,color:TX2,letterSpacing:1,textTransform:"uppercase",marginBottom:10}}>Aceita veículo na troca?</div>
+          <div style={{display:"flex",gap:8,marginBottom:troca?12:0}}>
+            {[false,true].map(val=>(
+              <div key={String(val)} onClick={()=>st(val)} style={{flex:1,padding:"9px 6px",borderRadius:10,textAlign:"center",fontSize:12,fontWeight:700,cursor:"pointer",border:`2px solid ${troca===val?(val?GR:RD):BD}`,background:troca===val?(val?"rgba(29,184,122,0.12)":"rgba(232,67,58,0.1)"):"transparent",color:troca===val?(val?GR:RD):TX2}}>
+                {val?"🔄 Aceito troca":"✗ Não aceito"}
+              </div>
+            ))}
+          </div>
+          {troca&&<><label style={{...lbl,marginTop:2}}>Valor mínimo na troca (R$)</label><input style={inp} type="number" value={tmin} onChange={e=>stm(e.target.value)}/></>}
+        </div>
+      </div>
+      <div style={{padding:"8px 16px 16px"}}><button style={pb(G,INK)} onClick={()=>onNext({...v,km:parseInt(v.km),preco:parseInt(v.preco),min:parseInt(v.min),trocaMin:troca?parseInt(tmin):null})}>Continuar → Checklist</button></div>
+    </div>
+  );
+}
+
+function Checklist({onNext,onBack}){
+  const [sts,ss]=useState({});
+  const filled=Object.keys(sts).length,total=CL.length;
+  const score=()=>{let ok=0,w=0,b=0,d=0;CL.forEach(i=>{const s=sts[i.id];if(s==="nova"||s==="bom")ok++;else if(s==="atencao"){w++;d+=i.da;}else if(s==="substituir"){b++;d+=i.ds;}});return{ok,warn:w,bad:b,discount:d,score:Math.max(1,Math.round(10-w*0.8-b*2))};};
+  const getAl=(item,s)=>{
+    if(!s)return null;
+    if(s==="nova")return{t:"ok",msg:"✅ Recém substituído valoriza seu anúncio."};
+    if(s==="bom")return item.sev==="hard"?{t:"tip",msg:"💡 Se trocou recentemente, marque 'Recém trocado'."}:null;
+    if(s==="atencao")return{t:"warn",msg:`⚠️ A IA poderá negociar ~${fmt(item.da)} de desconto.`};
+    return{t:"bad",msg:`🔴 Custo estimado (${fmt(item.ds)}) vira argumento de desconto.`};
+  };
+  const ac={ok:{bg:"rgba(29,184,122,0.1)",c:"#6EE7B7",b:"rgba(29,184,122,0.2)"},tip:{bg:"rgba(45,126,248,0.08)",c:"#93C5FD",b:"rgba(45,126,248,0.15)"},warn:{bg:"rgba(232,160,32,0.1)",c:"#FCD34D",b:"rgba(232,160,32,0.2)"},bad:{bg:"rgba(232,67,58,0.1)",c:"#FCA5A5",b:"rgba(232,67,58,0.2)"}};
+  return(
+    <div style={base}>
+      <Top label="Checklist" step={1}/>
+      <div style={{flex:1,overflowY:"auto",padding:"16px 16px 8px"}}>
+        <div style={{fontSize:20,fontWeight:800,color:"#fff",marginBottom:3,fontFamily:"'Cabinet Grotesk',sans-serif"}}>Checklist Técnico</div>
+        <div style={{fontSize:12,color:TX2,marginBottom:14}}>Marque o estado real de cada item.</div>
+        <div style={{marginBottom:14}}>
+          <div style={{display:"flex",justifyContent:"space-between",fontSize:11,marginBottom:5,color:TX2}}><span>Preenchidos</span><span style={{fontWeight:700,color:"#fff"}}>{filled}/{total}</span></div>
+          <div style={{height:4,background:INK3,borderRadius:4}}><div style={{height:4,width:`${(filled/total)*100}%`,background:`linear-gradient(90deg,${GR},${G})`,borderRadius:4,transition:"width 0.4s"}}/></div>
+        </div>
+        {SECS.map(sec=>(
+          <div key={sec.l}>
+            <div style={{fontSize:9,fontWeight:700,color:G,letterSpacing:1.5,textTransform:"uppercase",display:"flex",alignItems:"center",gap:8,margin:"12px 0 7px"}}>
+              {sec.l}<div style={{flex:1,height:1,background:BD}}/>
+            </div>
+            {CL.filter(i=>sec.ids.includes(i.id)).map(item=>{
+              const s=sts[item.id],al=getAl(item,s),a=al?ac[al.t]:null;
+              return(
+                <div key={item.id} style={{background:"rgba(255,255,255,0.04)",border:`1.5px solid ${s?STC[s]:BD}`,borderRadius:12,padding:11,marginBottom:6,transition:"border-color 0.2s"}}>
+                  <div style={{fontSize:12,fontWeight:600,color:"#fff",marginBottom:1}}>{item.icon} {item.name}</div>
+                  <div style={{fontSize:10,color:TX2,marginBottom:8}}>{item.km}</div>
+                  <div style={{display:"flex",gap:4}}>
+                    {["nova","bom","atencao","substituir"].map(sv=>(
+                      <div key={sv} onClick={()=>ss(p=>({...p,[item.id]:sv}))} style={{flex:1,padding:"7px 2px",borderRadius:8,border:`1.5px solid ${s===sv?STC[sv]:BD}`,fontSize:9,fontWeight:700,textAlign:"center",cursor:"pointer",color:s===sv?STC[sv]:TX2,background:s===sv?`${STC[sv]}20`:"transparent",whiteSpace:"pre-line",lineHeight:1.3}}>
+                        {STL[sv]}
+                      </div>
+                    ))}
+                  </div>
+                  {al&&<div style={{display:"flex",gap:6,background:a.bg,border:`1px solid ${a.b}`,borderRadius:7,padding:"6px 9px",marginTop:7,fontSize:10,color:a.c,lineHeight:1.5}}>{al.msg}</div>}
+                </div>
+              );
+            })}
+          </div>
+        ))}
+      </div>
+      <div style={{padding:"8px 16px 16px"}}>
+        <button style={pb(G,INK,filled<total)} disabled={filled<total} onClick={()=>onNext(sts,score())}>{filled<total?`Preencha todos (${total-filled} restantes)`:"⚡ Ver Match"}</button>
+        <button style={{...pb("transparent",TX2),border:`1px solid ${BD}`}} onClick={onBack}>← Voltar</button>
+      </div>
+    </div>
+  );
+}
+
+function Match({veiculo,tech,onStart,onBack}){
+  const fipe=Math.round(veiculo.preco*1.05),bmax=Math.round(veiculo.preco*0.97);
+  const sc=tech.score,scc=sc>=8?GR:sc>=6?G:RD;
+  return(
+    <div style={base}>
+      <Top label="Match" step={2}/>
+      <div style={{flex:1,overflowY:"auto",padding:"16px 16px 8px"}}>
+        <div style={{fontSize:20,fontWeight:800,color:"#fff",marginBottom:3,fontFamily:"'Cabinet Grotesk',sans-serif"}}>Match Encontrado! ⚡</div>
+        <div style={{fontSize:12,color:TX2,marginBottom:16}}>Um comprador compatível foi identificado.</div>
+        <div style={{background:"linear-gradient(135deg,rgba(232,160,32,0.12),rgba(29,184,122,0.08))",border:"1.5px solid rgba(232,160,32,0.35)",borderRadius:16,padding:16,marginBottom:12}}>
+          <div style={{fontSize:9,fontWeight:700,color:G,letterSpacing:2,textTransform:"uppercase",marginBottom:7}}>⚡ Match perfeito</div>
+          <div style={{fontSize:19,fontWeight:800,color:"#fff",marginBottom:2,fontFamily:"'Cabinet Grotesk',sans-serif"}}>{veiculo.marca} {veiculo.modelo} {veiculo.ano}</div>
+          <div style={{fontSize:11,color:TX2,marginBottom:12}}>{veiculo.km.toLocaleString("pt-BR")} km · {veiculo.cambio}</div>
+          <div style={{display:"flex",gap:7}}>
+            {[["Pedido",fmt(veiculo.preco),G],["Teto comprador",fmt(bmax),GR],["FIPE",fmt(fipe),TX2]].map(([l,v,c])=>(
+              <div key={l} style={{flex:1,background:"rgba(0,0,0,0.3)",borderRadius:9,padding:9,textAlign:"center"}}>
+                <div style={{fontSize:8,color:TX2,fontWeight:600,textTransform:"uppercase",marginBottom:3}}>{l}</div>
+                <div style={{fontSize:12,fontWeight:800,color:c}}>{v}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+        <div style={card}>
+          <div style={{fontSize:10,fontWeight:700,color:TX2,letterSpacing:1,textTransform:"uppercase",marginBottom:9}}>Perfil do comprador</div>
+          {[["👤","Ana Lima"],["💳","À vista"],["📍","São Paulo, SP"]].map(([k,v])=>(
+            <div key={k} style={{display:"flex",justifyContent:"space-between",fontSize:12,padding:"5px 0",borderBottom:`1px solid ${BD}`}}>
+              <span style={{color:TX2}}>{k}</span><span style={{fontWeight:700}}>{v}</span>
+            </div>
+          ))}
+        </div>
+        <div style={card}>
+          <div style={{fontSize:10,fontWeight:700,color:TX2,letterSpacing:1,textTransform:"uppercase",marginBottom:9}}>Score técnico</div>
+          {[["✅ OK",tech.ok,GR],["⚠️ Atenção",tech.warn,G],["🔴 Substituir",tech.bad,RD],["💰 Desconto est.",fmt(tech.discount),G]].map(([k,v,c])=>(
+            <div key={k} style={{display:"flex",justifyContent:"space-between",fontSize:12,padding:"4px 0",borderBottom:`1px solid ${BD}`}}>
+              <span style={{color:TX2}}>{k}</span><span style={{fontWeight:700,color:c}}>{v}</span>
+            </div>
+          ))}
+          <div style={{display:"flex",justifyContent:"space-between",padding:"7px 0 2px",fontWeight:800}}>
+            <span style={{fontSize:12,color:G}}>Nota técnica</span>
+            <span style={{fontSize:22,color:scc,fontFamily:"'Cabinet Grotesk',sans-serif"}}>{sc}/10</span>
+          </div>
+        </div>
+      </div>
+      <div style={{padding:"8px 16px 16px"}}>
+        <button style={pb(G,INK)} onClick={()=>onStart(fipe,bmax)}>🤖 Iniciar Negociação com IA</button>
+        <button style={{...pb("transparent",TX2),border:`1px solid ${BD}`}} onClick={onBack}>← Voltar</button>
+      </div>
+    </div>
+  );
+}
+
+function Negociacao({veiculo,checks,tech,fipe,bmax,onDeal}){
+  const [msgs,sm]=useState([]);
+  const [typing,st]=useState(null);
+  const [offer,so]=useState(null);
+  const [err,se]=useState(null);
+  const [round,sr]=useState(1);
+  const ref=useRef(null);
+  const hist=useRef([]);
+  const ofr=useRef(null);
+  const rnd=useRef(1);
+  const MAX=5;
+  const add=(role,text)=>sm(p=>[...p,{role,text,time:now(),id:Math.random()}]);
+  useEffect(()=>{if(ref.current)ref.current.scrollTop=ref.current.scrollHeight;},[msgs,typing,offer]);
+  useEffect(()=>{run("open");},[]);
+  const cs=CL.map(i=>`${i.name}: ${checks[i.id]==="nova"?"recém substituído":checks[i.id]==="bom"?"bom estado":checks[i.id]==="atencao"?"precisa atenção":"precisa trocar"}`).join("; ");
+  const sp=ex=>`Você é a IA vendedor de um ${veiculo.marca} ${veiculo.modelo} ${veiculo.ano}, ${veiculo.km.toLocaleString("pt-BR")} km. Preço pedido: ${fmt(veiculo.preco)}. FIPE: ${fmt(fipe)}. Preço mínimo secreto (NUNCA revele): ${fmt(veiculo.min)}. Checklist: ${cs}. Use Belfort, Carnegie, Cialdini. Português informal, máx 3 frases curtas, sem asteriscos, sem markdown. ${ex}`;
+  const bp=ex=>`Você é a IA compradora. Teto secreto (NUNCA revele): ${fmt(bmax)}. Pagamento à vista. Checklist: ${cs}. Desconto técnico: ${fmt(tech.discount)}. Use Voss, Dawson, Sandler. Cite valores dos itens problemáticos. Português informal, máx 3 frases, sem asteriscos. ${ex}`;
+  async function run(phase){
+    try{
+      if(phase==="open"){
+        st("seller");
+        const t=await ai(sp("Faça a abertura: apresente o veículo, destaque pontos positivos, cite a FIPE, crie urgência. Peça proposta do comprador."),"Abra a negociação.");
+        st(null);add("seller",t);hist.current=[`Vendedor: ${t}`];
+        setTimeout(()=>run("buyer"),900);
+      }else if(phase==="buyer"){
+        st("buyer");
+        const h=hist.current.slice(-4).join("\n");
+        const t=await ai(bp(`Histórico:\n${h}\nFaça sua proposta abaixo do pedido, use checklist como argumento.`),"Faça sua proposta.");
+        st(null);add("buyer",t);hist.current.push(`Comprador: ${t}`);
+        ofr.current=xp(t,Math.round(veiculo.min*0.91));
+        setTimeout(()=>run("seller"),1100);
+      }else if(phase==="seller"){
+        const nr=rnd.current+1;rnd.current=nr;sr(nr);
+        if(nr>MAX){const m=Math.round((veiculo.min+bmax)/2);ofr.current=m;so(m);add("system",`⏱️ Proposta final: ${fmt(m)}`);return;}
+        const ov=ofr.current,close=ov>=veiculo.min;
+        const h=hist.current.slice(-4).join("\n");
+        st("seller");
+        const t=await ai(sp(close?`FECHE O NEGÓCIO! Aceite ${fmt(ov)} com entusiasmo.`:`Contra-proposta. Não desça de ${fmt(veiculo.min)}. Histórico:\n${h}.`),`Comprador ofereceu ${fmt(ov)}. Responda.`);
+        st(null);add("seller",t);hist.current.push(`Vendedor: ${t}`);
+        if(close){so(ov);}else{ofr.current=xp(t,Math.round((veiculo.preco+ov)/2));setTimeout(()=>run("buyer"),1100);}
+      }
+    }catch(e){st(null);se(e.message);}
+  }
+  const mc={seller:{w:"🤖 IA Vendedor",wc:BL,bg:INK3,br:`1px solid ${BD}`,al:"flex-start",r:"15px 15px 15px 4px"},buyer:{w:"🤖 IA Comprador",wc:G,bg:"rgba(232,160,32,0.1)",br:"1px solid rgba(232,160,32,0.2)",al:"flex-end",r:"15px 15px 4px 15px"},system:{w:null,wc:null,bg:"rgba(29,184,122,0.08)",br:"1px solid rgba(29,184,122,0.2)",al:"center",r:"10px"}};
+  return(
+    <div style={{...base,height:600,overflow:"hidden"}}>
+      <div style={{padding:"0 16px 11px",borderBottom:`1px solid ${BD}`,background:"rgba(13,15,20,0.97)"}}>
+        <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",paddingTop:8}}>
+          <div><div style={{fontSize:14,fontWeight:800,color:"#fff",fontFamily:"'Cabinet Grotesk',sans-serif"}}>{veiculo.marca} {veiculo.modelo} {veiculo.ano}</div><div style={{fontSize:10,color:TX2}}>Pedido: {fmt(veiculo.preco)}</div></div>
+          <div style={{fontSize:12,fontWeight:800,color:G}}>Rodada {Math.min(round,MAX)}/{MAX}</div>
+        </div>
+        <div style={{display:"inline-flex",alignItems:"center",gap:5,background:"rgba(29,184,122,0.12)",color:GR,fontSize:10,fontWeight:700,padding:"3px 8px",borderRadius:20,marginTop:5}}>
+          <div style={{width:5,height:5,borderRadius:"50%",background:GR}}/> Negociação ao vivo
+        </div>
+      </div>
+      <div ref={ref} style={{flex:1,overflowY:"auto",padding:"12px 16px",display:"flex",flexDirection:"column",gap:8}}>
+        {msgs.map(m=>{
+          const s=mc[m.role]||mc.system;
+          return(
+            <div key={m.id} style={{maxWidth:m.role==="system"?"100%":"86%",alignSelf:s.al,display:"flex",flexDirection:"column",gap:2}}>
+              {s.w&&<div style={{fontSize:9,fontWeight:700,color:s.wc,textTransform:"uppercase",letterSpacing:0.5,textAlign:m.role==="buyer"?"right":"left"}}>{s.w}</div>}
+              <div style={{padding:"9px 12px",borderRadius:s.r,fontSize:12,lineHeight:1.55,background:s.bg,border:s.br,textAlign:m.role==="system"?"center":"left"}}>{m.text}</div>
+              {m.role!=="system"&&<div style={{fontSize:9,color:TX2,textAlign:m.role==="buyer"?"right":"left"}}>{m.time}</div>}
+            </div>
+          );
+        })}
+        {typing&&(
+          <div style={{maxWidth:"86%",alignSelf:typing==="seller"?"flex-start":"flex-end",display:"flex",flexDirection:"column",gap:2}}>
+            <div style={{fontSize:9,fontWeight:700,color:typing==="seller"?BL:G,textTransform:"uppercase",letterSpacing:0.5}}>{typing==="seller"?"🤖 IA Vendedor":"🤖 IA Comprador"}</div>
+            <div style={{background:INK3,border:`1px solid ${BD}`,borderRadius:"15px 15px 15px 4px",padding:"10px 14px",display:"flex",gap:4,alignItems:"center"}}>
+              {[0,1,2].map(i=><div key={i} style={{width:5,height:5,borderRadius:"50%",background:TX2,animation:`tp 1.2s ${i*0.2}s infinite`}}/>)}
+            </div>
+          </div>
+        )}
+        {offer&&(
+          <div style={{background:"linear-gradient(135deg,rgba(232,160,32,0.15),rgba(232,160,32,0.07))",border:"1.5px solid rgba(232,160,32,0.4)",borderRadius:13,padding:"13px 15px",textAlign:"center",alignSelf:"center",width:"88%"}}>
+            <div style={{fontSize:9,fontWeight:700,color:G,letterSpacing:2,textTransform:"uppercase",marginBottom:5}}>⚡ PROPOSTA FINAL</div>
+            <div style={{fontSize:28,fontWeight:900,color:"#fff",marginBottom:3,fontFamily:"'Cabinet Grotesk',sans-serif"}}>{fmt(offer)}</div>
+            <div style={{fontSize:11,color:TX2}}>Aguardando sua decisão…</div>
+          </div>
+        )}
+        {err&&<div style={{background:"rgba(232,67,58,0.1)",border:"1px solid rgba(232,67,58,0.3)",borderRadius:9,padding:"9px 13px",color:"#FCA5A5",fontSize:12,textAlign:"center"}}>⚠️ {err}</div>}
+      </div>
+      {offer&&(
+        <div style={{padding:"10px 16px 16px",borderTop:`1px solid ${BD}`,display:"flex",gap:7,background:INK}}>
+          <button onClick={()=>onDeal(false,offer)} style={{flex:1,padding:11,border:`1.5px solid ${RD}`,borderRadius:10,background:"transparent",color:RD,fontFamily:"inherit",fontSize:13,fontWeight:700,cursor:"pointer"}}>✗ Recusar</button>
+          <button onClick={()=>onDeal(true,offer)} style={{flex:2,padding:11,border:"none",borderRadius:10,background:GR,color:"#fff",fontFamily:"inherit",fontSize:13,fontWeight:700,cursor:"pointer"}}>✓ Aceitar {fmt(offer)}</button>
+        </div>
+      )}
+      <style>{`@keyframes tp{0%,60%,100%{transform:translateY(0);opacity:0.4}30%{transform:translateY(-5px);opacity:1}}`}</style>
+    </div>
+  );
+}
+
+function Resultado({veiculo,fipe,price,ok,tech,onRestart}){
+  const comm=Math.round(price*0.015);
+  return(
+    <div style={base}>
+      <Top label="Resultado" step={4}/>
+      <div style={{flex:1,overflowY:"auto",padding:"16px 16px 8px"}}>
+        <div style={{textAlign:"center",padding:"20px 0 14px"}}>
+          <div style={{fontSize:48,marginBottom:8}}>{ok?"🎉":"😔"}</div>
+          <div style={{fontSize:22,fontWeight:800,color:"#fff",marginBottom:4,fontFamily:"'Cabinet Grotesk',sans-serif"}}>{ok?"Negócio Fechado!":"Oferta Recusada"}</div>
+          <div style={{fontSize:12,color:TX2}}>{ok?"A IA negociou com sucesso":"Veículo voltará ao matching"}</div>
+        </div>
+        <div style={{background:INK3,border:`1px solid ${BD}`,borderRadius:14,padding:16,marginBottom:12}}>
+          {ok?[
+            ["Veículo",`${veiculo.marca} ${veiculo.modelo} ${veiculo.ano}`,"#fff"],
+            ["Preço pedido",fmt(veiculo.preco),TX2],
+            ["FIPE estimada",fmt(fipe),TX2],
+            ["Nota técnica",`${tech.score}/10`,G],
+            ["✅ Valor negociado",fmt(price),GR],
+            ["Taxa plataforma (1,5%)",`- ${fmt(comm)}`,G],
+            ["Taxa comprador (1,5%)",fmt(comm),G],
+            ["💰 Você recebe",fmt(price-comm),GR],
+          ].map(([k,v,c],i)=>(
+            <div key={k} style={{display:"flex",justifyContent:"space-between",padding:"5px 0",borderBottom:i<7?`1px solid ${BD}`:"none"}}>
+              <span style={{fontSize:12,color:i>=4?c:TX2,fontWeight:i>=4?700:400}}>{k}</span>
+              <span style={{fontSize:i===7?15:12,fontWeight:700,color:c}}>{v}</span>
+            </div>
+          )):(
+            <div style={{textAlign:"center",color:TX2,fontSize:13,padding:8}}>Melhor oferta: <strong style={{color:"#fff"}}>{fmt(price)}</strong></div>
+          )}
+        </div>
+        {ok&&<div style={card}>
+          <div style={{fontSize:10,fontWeight:700,color:TX2,letterSpacing:1,textTransform:"uppercase",marginBottom:9}}>📋 Declaração Assinada</div>
+          <div style={{fontSize:12,color:TX2,lineHeight:1.6,marginBottom:9}}>O vendedor declara que todas as informações do checklist são verdadeiras, assumindo responsabilidade civil.</div>
+          <div style={{background:"rgba(29,184,122,0.08)",border:"1px solid rgba(29,184,122,0.15)",borderRadius:8,padding:"7px 11px",fontSize:11,color:GR,fontWeight:600}}>✅ Assinado digitalmente às {now()}</div>
+        </div>}
+      </div>
+      <div style={{padding:"8px 16px 16px"}}><button style={pb(G,INK)} onClick={onRestart}>🔄 Novo anúncio</button></div>
+    </div>
+  );
+}
+
+// ── DEMO VEHICLES ─────────────────────────────────────────
+const DEMO_VEICULOS = [
+  { id:1, marca:"Honda", modelo:"Civic", ano:"2021", km:52000, cambio:"CVT", comb:"Flex", preco:98000, min:89000, trocaMin:null, fipe:102900, checks:{pastilhas:"bom",fluido:"nova",cambio:"bom",velas:"bom",pneus:"atencao",arcond:"bom",lataria:"bom"}, tech:{ok:5,warn:1,bad:0,discount:800,score:9} },
+  { id:2, marca:"Toyota", modelo:"Corolla", ano:"2020", km:68000, cambio:"Automático", comb:"Flex", preco:112000, min:104000, trocaMin:25000, fipe:118000, checks:{pastilhas:"atencao",fluido:"bom",cambio:"bom",velas:"bom",pneus:"bom",arcond:"nova",lataria:"bom"}, tech:{ok:5,warn:1,bad:0,discount:500,score:9} },
+  { id:3, marca:"Jeep", modelo:"Renegade", ano:"2019", km:87000, cambio:"Automático", comb:"Flex", preco:89000, min:82000, trocaMin:null, fipe:94000, checks:{pastilhas:"substituir",fluido:"atencao",cambio:"atencao",velas:"bom",pneus:"atencao",arcond:"bom",lataria:"atencao"}, tech:{ok:2,warn:4,bad:1,discount:4180,score:5} },
+  { id:4, marca:"Volkswagen", modelo:"T-Cross", ano:"2022", km:31000, cambio:"Automático", comb:"Flex", preco:134000, min:126000, trocaMin:30000, fipe:139000, checks:{pastilhas:"bom",fluido:"bom",cambio:"bom",velas:"bom",pneus:"bom",arcond:"bom",lataria:"nova"}, tech:{ok:7,warn:0,bad:0,discount:0,score:10} },
+  { id:5, marca:"Honda", modelo:"CB 500", ano:"2022", km:18000, cambio:"Manual", comb:"Gasolina", preco:32500, min:29000, trocaMin:null, fipe:34200, checks:{pastilhas:"bom",fluido:"bom",cambio:"bom",velas:"bom",pneus:"bom",arcond:"bom",lataria:"bom"}, tech:{ok:7,warn:0,bad:0,discount:0,score:10} },
+  { id:6, marca:"Hyundai", modelo:"HB20", ano:"2020", km:61000, cambio:"Manual", comb:"Flex", preco:54000, min:49000, trocaMin:null, fipe:57000, checks:{pastilhas:"atencao",fluido:"atencao",cambio:"bom",velas:"bom",pneus:"substituir",arcond:"bom",lataria:"bom"}, tech:{ok:4,warn:2,bad:1,discount:2160,score:6} },
+];
+
+// ── HOME SCREEN ───────────────────────────────────────────
+function Home({onVender, onComprar, user, onLogout, onLogin}){
+  return(
+    <div style={{...base,minHeight:500}}>
+      <div style={{padding:"16px",borderBottom:`1px solid ${BD}`,background:"rgba(13,15,20,0.97)",display:"flex",alignItems:"center",justifyContent:"space-between"}}>
+        <div style={{fontSize:17,fontWeight:900,color:"#fff",fontFamily:"'Cabinet Grotesk',sans-serif"}}>Auto<span style={{color:G}}>Match</span> AI</div>
+        {user
+          ? <div style={{display:"flex",alignItems:"center",gap:8}}>
+              <div style={{fontSize:11,color:GR,fontWeight:600}}>✅ {user.email?.split("@")[0]}</div>
+              <div onClick={onLogout} style={{fontSize:11,color:TX2,cursor:"pointer",background:"rgba(255,255,255,0.07)",padding:"4px 10px",borderRadius:20}}>Sair</div>
+            </div>
+          : <div onClick={onLogin} style={{fontSize:12,fontWeight:700,color:G,cursor:"pointer",background:"rgba(232,160,32,0.1)",border:"1px solid rgba(232,160,32,0.2)",padding:"5px 12px",borderRadius:20}}>Entrar / Cadastrar</div>
+        }
+      </div>
+      <div style={{flex:1,overflowY:"auto",padding:"24px 16px 16px"}}>
+        <div style={{textAlign:"center",marginBottom:28}}>
+          <div style={{fontSize:28,fontWeight:900,color:"#fff",fontFamily:"'Cabinet Grotesk',sans-serif",marginBottom:6,letterSpacing:-.5}}>O que você quer fazer?</div>
+          <div style={{fontSize:13,color:TX2}}>A IA negocia por você nos dois lados</div>
+        </div>
+        <div onClick={onVender} style={{background:"linear-gradient(135deg,rgba(232,160,32,0.15),rgba(232,160,32,0.05))",border:"1.5px solid rgba(232,160,32,0.4)",borderRadius:18,padding:22,marginBottom:12,cursor:"pointer",transition:"all .2s"}}>
+          <div style={{fontSize:32,marginBottom:10}}>🚗</div>
+          <div style={{fontSize:18,fontWeight:800,color:"#fff",fontFamily:"'Cabinet Grotesk',sans-serif",marginBottom:5}}>Quero Vender</div>
+          <div style={{fontSize:13,color:TX2,lineHeight:1.5}}>Cadastre seu veículo e defina o preço mínimo. A IA negocia com compradores usando técnicas dos melhores vendedores do mundo.</div>
+          <div style={{marginTop:12,display:"inline-flex",alignItems:"center",gap:6,background:"rgba(232,160,32,0.15)",color:G,fontSize:11,fontWeight:700,padding:"4px 10px",borderRadius:20}}>Começar →</div>
+        </div>
+        <div onClick={onComprar} style={{background:"linear-gradient(135deg,rgba(29,184,122,0.12),rgba(29,184,122,0.04))",border:"1.5px solid rgba(29,184,122,0.3)",borderRadius:18,padding:22,cursor:"pointer",transition:"all .2s"}}>
+          <div style={{fontSize:32,marginBottom:10}}>🔍</div>
+          <div style={{fontSize:18,fontWeight:800,color:"#fff",fontFamily:"'Cabinet Grotesk',sans-serif",marginBottom:5}}>Quero Comprar</div>
+          <div style={{fontSize:13,color:TX2,lineHeight:1.5}}>Veja veículos disponíveis ou cadastre o que você quer. A IA negocia o melhor preço por você.</div>
+          <div style={{marginTop:12,display:"inline-flex",alignItems:"center",gap:6,background:"rgba(29,184,122,0.15)",color:GR,fontSize:11,fontWeight:700,padding:"4px 10px",borderRadius:20}}>Ver veículos →</div>
+        </div>
+
+        <div style={{marginTop:20,background:"rgba(255,255,255,0.03)",border:`1px solid ${BD}`,borderRadius:12,padding:14}}>
+          <div style={{display:"flex",justifyContent:"space-around"}}>
+            {[["R$ 0","Para anunciar"],["3%","Comissão total"],["5","Rodadas de IA"]].map(([n,l])=>(
+              <div key={l} style={{textAlign:"center"}}>
+                <div style={{fontSize:18,fontWeight:900,color:G,fontFamily:"'Cabinet Grotesk',sans-serif"}}>{n}</div>
+                <div style={{fontSize:10,color:TX2}}>{l}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ── BUYER VEHICLE LIST ────────────────────────────────────
+function ListaVeiculos({onSelectVeiculo, onCadastrarPerfil, onBack}){
+  const [filtro,sf]=useState("");
+  const filtered = DEMO_VEICULOS.filter(v=>
+    `${v.marca} ${v.modelo} ${v.ano}`.toLowerCase().includes(filtro.toLowerCase())
+  );
+  const scColor=s=>s>=8?GR:s>=6?G:RD;
+  return(
+    <div style={{...base,minHeight:500}}>
+      <div style={{padding:"12px 16px",borderBottom:`1px solid ${BD}`,background:"rgba(13,15,20,0.97)",display:"flex",alignItems:"center",gap:10}}>
+        <div onClick={onBack} style={{cursor:"pointer",color:TX2,fontSize:18}}>←</div>
+        <div style={{fontSize:16,fontWeight:800,color:"#fff",fontFamily:"'Cabinet Grotesk',sans-serif",flex:1}}>Veículos Disponíveis</div>
+        <div style={{fontSize:11,fontWeight:700,color:GR,background:"rgba(29,184,122,0.12)",border:"1px solid rgba(29,184,122,0.25)",padding:"3px 9px",borderRadius:20}}>{DEMO_VEICULOS.length} anúncios</div>
+      </div>
+      <div style={{flex:1,overflowY:"auto",padding:"14px 16px 8px"}}>
+        <input style={{...inp,marginBottom:14}} placeholder="🔍  Buscar por marca ou modelo..." value={filtro} onChange={e=>sf(e.target.value)}/>
+
+        <div onClick={onCadastrarPerfil} style={{background:"linear-gradient(135deg,rgba(45,126,248,0.15),rgba(45,126,248,0.05))",border:"1.5px dashed rgba(45,126,248,0.4)",borderRadius:14,padding:14,marginBottom:14,cursor:"pointer",display:"flex",alignItems:"center",gap:12}}>
+          <div style={{fontSize:28}}>🎯</div>
+          <div>
+            <div style={{fontSize:13,fontWeight:700,color:"#fff",marginBottom:2}}>Não encontrou o que quer?</div>
+            <div style={{fontSize:11,color:TX2}}>Cadastre seu perfil e a IA avisa quando surgir o veículo ideal</div>
+          </div>
+          <div style={{marginLeft:"auto",fontSize:18,color:BL}}>→</div>
+        </div>
+
+        {filtered.map(v=>{
+          const sc=v.tech.score;
+          return(
+            <div key={v.id} onClick={()=>onSelectVeiculo(v)} style={{background:"rgba(255,255,255,0.04)",border:`1.5px solid ${BD}`,borderRadius:14,padding:14,marginBottom:9,cursor:"pointer",transition:"all .2s"}}>
+              <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start",marginBottom:8}}>
+                <div>
+                  <div style={{fontSize:15,fontWeight:800,color:"#fff",fontFamily:"'Cabinet Grotesk',sans-serif"}}>{v.marca} {v.modelo} {v.ano}</div>
+                  <div style={{fontSize:11,color:TX2,marginTop:2}}>{v.km.toLocaleString("pt-BR")} km · {v.cambio} · {v.comb}</div>
+                </div>
+                <div style={{textAlign:"right"}}>
+                  <div style={{fontSize:16,fontWeight:800,color:G}}>{fmt(v.preco)}</div>
+                  <div style={{fontSize:10,color:TX2}}>FIPE: {fmt(v.fipe)}</div>
+                </div>
+              </div>
+              <div style={{display:"flex",gap:8,alignItems:"center"}}>
+                <div style={{flex:1,height:4,background:INK3,borderRadius:4}}>
+                  <div style={{height:4,width:`${sc*10}%`,background:scColor(sc),borderRadius:4}}/>
+                </div>
+                <div style={{fontSize:11,fontWeight:700,color:scColor(sc)}}>Nota {sc}/10</div>
+                {v.trocaMin && <div style={{fontSize:10,fontWeight:600,color:BL,background:"rgba(45,126,248,0.1)",padding:"2px 7px",borderRadius:20}}>Aceita troca</div>}
+              </div>
+            </div>
+          );
+        })}
+      </div>
+      <div style={{padding:"8px 16px 16px"}}>
+        <button style={pb("transparent",TX2)} onClick={onBack}>← Voltar</button>
+      </div>
+    </div>
+  );
+}
+
+// ── BUYER PROFILE CADASTRO ────────────────────────────────
+function CadastroComprador({onNext, onBack}){
+  const [v,sv]=useState({modelo:"Honda Civic",anoMin:"2019",anoMax:"2022",kmMax:"80000",precoIdeal:"85000",precoMax:"100000",pagamento:"vista"});
+  const set=k=>e=>sv(p=>({...p,[k]:e.target.value}));
+  const lbl={display:"block",fontSize:10,fontWeight:700,color:TX2,letterSpacing:1,textTransform:"uppercase",marginBottom:5};
+  return(
+    <div style={base}>
+      <div style={{padding:"12px 16px",borderBottom:`1px solid ${BD}`,background:"rgba(13,15,20,0.97)",display:"flex",alignItems:"center",gap:10}}>
+        <div onClick={onBack} style={{cursor:"pointer",color:TX2,fontSize:18}}>←</div>
+        <div style={{fontSize:16,fontWeight:800,color:"#fff",fontFamily:"'Cabinet Grotesk',sans-serif"}}>Perfil de Compra</div>
+      </div>
+      <div style={{flex:1,overflowY:"auto",padding:"16px 16px 8px"}}>
+        <div style={{fontSize:13,color:TX2,marginBottom:18,lineHeight:1.5}}>Diga o que você quer. A IA avisa quando surgir e negocia por você.</div>
+        <div style={{marginBottom:11}}><label style={lbl}>Modelo desejado</label><input style={inp} value={v.modelo} onChange={set("modelo")}/></div>
+        <div style={{display:"flex",gap:8,marginBottom:11}}>
+          <div style={{flex:1}}><label style={lbl}>Ano mínimo</label><input style={inp} type="number" value={v.anoMin} onChange={set("anoMin")}/></div>
+          <div style={{flex:1}}><label style={lbl}>Ano máximo</label><input style={inp} type="number" value={v.anoMax} onChange={set("anoMax")}/></div>
+        </div>
+        <div style={{marginBottom:11}}><label style={lbl}>KM máximo</label><input style={inp} type="number" value={v.kmMax} onChange={set("kmMax")}/></div>
+        <div style={{display:"flex",gap:8,marginBottom:11}}>
+          <div style={{flex:1}}><label style={lbl}>Preço ideal (R$)</label><input style={inp} type="number" value={v.precoIdeal} onChange={set("precoIdeal")}/></div>
+          <div style={{flex:1}}><label style={lbl}>Teto máximo (R$)</label><input style={inp} type="number" value={v.precoMax} onChange={set("precoMax")}/></div>
+        </div>
+        <div style={{...card,marginBottom:11}}>
+          <div style={{fontSize:10,fontWeight:700,color:TX2,letterSpacing:1,textTransform:"uppercase",marginBottom:10}}>Forma de pagamento</div>
+          <div style={{display:"flex",gap:7}}>
+            {[["vista","💵 À vista"],["financ","🏦 Financiar"],["ambos","🔀 Ambos"]].map(([val,lbl])=>(
+              <div key={val} onClick={()=>sv(p=>({...p,pagamento:val}))} style={{flex:1,padding:"9px 4px",borderRadius:9,textAlign:"center",fontSize:11,fontWeight:700,cursor:"pointer",border:`1.5px solid ${v.pagamento===val?GR:BD}`,background:v.pagamento===val?"rgba(29,184,122,0.12)":"transparent",color:v.pagamento===val?GR:TX2}}>
+                {lbl}
+              </div>
+            ))}
+          </div>
+        </div>
+        <div style={{background:"rgba(29,184,122,0.08)",border:"1px solid rgba(29,184,122,0.2)",borderRadius:11,padding:12,marginBottom:12}}>
+          <div style={{fontSize:11,fontWeight:700,color:GR,marginBottom:4}}>🤖 Como a IA vai agir</div>
+          <div style={{fontSize:11,color:TX2,lineHeight:1.5}}>Quando surgir um match, a IA tenta negociar a partir de {fmt(parseInt(v.precoIdeal)||0)} e não aceita acima de {fmt(parseInt(v.precoMax)||0)}. Você aprova o acordo final.</div>
+        </div>
+      </div>
+      <div style={{padding:"8px 16px 16px"}}>
+        <button style={pb(GR,"#fff")} onClick={()=>onNext({...v,precoIdeal:parseInt(v.precoIdeal),precoMax:parseInt(v.precoMax),kmMax:parseInt(v.kmMax)})}>⚡ Ativar Agente Comprador</button>
+        <button style={{...pb("transparent",TX2),border:`1px solid ${BD}`}} onClick={onBack}>← Voltar</button>
+      </div>
+    </div>
+  );
+}
+
+// ── BUYER MATCH DETAIL ────────────────────────────────────
+function DetalheVeiculo({veiculo, perfilComprador, onNegociar, onBack}){
+  const sc=veiculo.tech.score;
+  const scColor=sc>=8?GR:sc>=6?G:RD;
+  const defaultMax = perfilComprador ? perfilComprador.precoMax : Math.round(veiculo.preco*0.95);
+  const defaultIdeal = perfilComprador ? perfilComprador.precoIdeal : Math.round(veiculo.preco*0.88);
+  const [tetoMax, setTetoMax] = useState(String(defaultMax));
+  const [precoIdeal, setPrecoIdeal] = useState(String(defaultIdeal));
+  const [pagamento, setPagamento] = useState(perfilComprador?.pagamento||"vista");
+  const bmax = parseInt(tetoMax)||defaultMax;
+  const ideal = parseInt(precoIdeal)||defaultIdeal;
+  const checkLabel={nova:"✨ Recém trocado",bom:"✅ Bom estado",atencao:"⚠️ Precisa atenção",substituir:"🔴 Precisa trocar"};
+  const checkColor={nova:GR,bom:BL,atencao:G,substituir:RD};
+  const lbl={display:"block",fontSize:10,fontWeight:700,color:TX2,letterSpacing:1,textTransform:"uppercase",marginBottom:5};
+  return(
+    <div style={base}>
+      <div style={{padding:"12px 16px",borderBottom:`1px solid ${BD}`,background:"rgba(13,15,20,0.97)",display:"flex",alignItems:"center",gap:10}}>
+        <div onClick={onBack} style={{cursor:"pointer",color:TX2,fontSize:18}}>←</div>
+        <div style={{fontSize:16,fontWeight:800,color:"#fff",fontFamily:"'Cabinet Grotesk',sans-serif",flex:1}}>{veiculo.marca} {veiculo.modelo}</div>
+      </div>
+      <div style={{flex:1,overflowY:"auto",padding:"14px 16px 8px"}}>
+
+        <div style={{background:`linear-gradient(135deg,rgba(232,160,32,0.12),rgba(29,184,122,0.06))`,border:"1.5px solid rgba(232,160,32,0.3)",borderRadius:16,padding:16,marginBottom:14}}>
+          <div style={{fontSize:20,fontWeight:800,color:"#fff",fontFamily:"'Cabinet Grotesk',sans-serif",marginBottom:3}}>{veiculo.marca} {veiculo.modelo} {veiculo.ano}</div>
+          <div style={{fontSize:12,color:TX2,marginBottom:12}}>{veiculo.km.toLocaleString("pt-BR")} km · {veiculo.cambio} · {veiculo.comb}</div>
+          <div style={{display:"flex",gap:7}}>
+            {[["Vendedor pede",fmt(veiculo.preco),G],["FIPE estimada",fmt(veiculo.fipe),TX2]].map(([l,v,c])=>(
+              <div key={l} style={{flex:1,background:"rgba(0,0,0,0.3)",borderRadius:9,padding:9,textAlign:"center"}}>
+                <div style={{fontSize:8,color:TX2,fontWeight:600,textTransform:"uppercase",marginBottom:2}}>{l}</div>
+                <div style={{fontSize:13,fontWeight:800,color:c}}>{v}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* BUYER PRICE CONFIG */}
+        <div style={{background:"rgba(29,184,122,0.08)",border:"1.5px solid rgba(29,184,122,0.3)",borderRadius:14,padding:14,marginBottom:14}}>
+          <div style={{fontSize:12,fontWeight:800,color:GR,marginBottom:10}}>💰 Quanto você quer pagar?</div>
+          <div style={{display:"flex",gap:8,marginBottom:10}}>
+            <div style={{flex:1}}>
+              <label style={{...lbl,color:"rgba(29,184,122,0.8)"}}>Preço ideal (R$)</label>
+              <input style={{...inp,border:"1.5px solid rgba(29,184,122,0.3)",background:"rgba(0,0,0,0.3)"}} type="number" value={precoIdeal} onChange={e=>setPrecoIdeal(e.target.value)} placeholder="Ex: 85000"/>
+              <div style={{fontSize:9,color:TX2,marginTop:3}}>Sua IA começa aqui</div>
+            </div>
+            <div style={{flex:1}}>
+              <label style={{...lbl,color:"rgba(29,184,122,0.8)"}}>Teto máximo (R$)</label>
+              <input style={{...inp,border:"1.5px solid rgba(29,184,122,0.3)",background:"rgba(0,0,0,0.3)"}} type="number" value={tetoMax} onChange={e=>setTetoMax(e.target.value)} placeholder="Ex: 95000"/>
+              <div style={{fontSize:9,color:TX2,marginTop:3}}>Nunca passa desse valor</div>
+            </div>
+          </div>
+          <div style={{display:"flex",gap:6}}>
+            {[["vista","💵 À vista"],["financ","🏦 Financiar"],["ambos","🔀 Ambos"]].map(([val,lbl2])=>(
+              <div key={val} onClick={()=>setPagamento(val)} style={{flex:1,padding:"8px 3px",borderRadius:8,textAlign:"center",fontSize:10,fontWeight:700,cursor:"pointer",border:`1.5px solid ${pagamento===val?GR:BD}`,background:pagamento===val?"rgba(29,184,122,0.15)":"transparent",color:pagamento===val?GR:TX2}}>
+                {lbl2}
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* NEGOTIATION PREVIEW */}
+        <div style={{background:"rgba(255,255,255,0.03)",border:`1px solid ${BD}`,borderRadius:12,padding:12,marginBottom:14}}>
+          <div style={{fontSize:10,fontWeight:700,color:TX2,letterSpacing:1,textTransform:"uppercase",marginBottom:8}}>Como a negociação vai funcionar</div>
+          <div style={{display:"flex",alignItems:"center",gap:8}}>
+            <div style={{flex:1,background:"rgba(232,67,58,0.1)",borderRadius:8,padding:8,textAlign:"center"}}>
+              <div style={{fontSize:9,color:RD,fontWeight:700,marginBottom:2}}>IA VENDEDOR</div>
+              <div style={{fontSize:13,fontWeight:800,color:"#fff"}}>{fmt(veiculo.preco)}</div>
+              <div style={{fontSize:9,color:TX2}}>começa aqui ↓</div>
+            </div>
+            <div style={{color:TX2,fontSize:18}}>⟷</div>
+            <div style={{flex:1,background:"rgba(29,184,122,0.1)",borderRadius:8,padding:8,textAlign:"center"}}>
+              <div style={{fontSize:9,color:GR,fontWeight:700,marginBottom:2}}>SUA IA</div>
+              <div style={{fontSize:13,fontWeight:800,color:"#fff"}}>{fmt(ideal)}</div>
+              <div style={{fontSize:9,color:TX2}}>começa aqui ↑</div>
+            </div>
+          </div>
+          <div style={{textAlign:"center",marginTop:8,fontSize:11,color:TX2}}>
+            Meio termo esperado: <strong style={{color:G}}>{fmt(Math.round((veiculo.preco+ideal)/2))}</strong>
+          </div>
+        </div>
+
+        <div style={card}>
+          <div style={{fontSize:10,fontWeight:700,color:TX2,letterSpacing:1,textTransform:"uppercase",marginBottom:10}}>Checklist técnico — argumentos da sua IA</div>
+          {CL.map(item=>{
+            const st=veiculo.checks[item.id];
+            return(
+              <div key={item.id} style={{display:"flex",justifyContent:"space-between",alignItems:"center",padding:"5px 0",borderBottom:`1px solid ${BD}`}}>
+                <span style={{fontSize:11,color:TX2}}>{item.icon} {item.name}</span>
+                <span style={{fontSize:10,fontWeight:700,color:checkColor[st]}}>{checkLabel[st]}</span>
+              </div>
+            );
+          })}
+          <div style={{display:"flex",justifyContent:"space-between",padding:"7px 0 2px",fontWeight:800}}>
+            <span style={{fontSize:11,color:G}}>Nota técnica</span>
+            <span style={{fontSize:18,color:scColor,fontFamily:"'Cabinet Grotesk',sans-serif"}}>{sc}/10</span>
+          </div>
+        </div>
+
+        {veiculo.trocaMin&&(
+          <div style={{background:"rgba(45,126,248,0.08)",border:"1px solid rgba(45,126,248,0.2)",borderRadius:11,padding:11,marginBottom:12}}>
+            <div style={{fontSize:11,fontWeight:700,color:BL,marginBottom:3}}>🔄 Aceita troca</div>
+            <div style={{fontSize:11,color:TX2}}>Vendedor aceita seu veículo como parte do pagamento (mínimo {fmt(veiculo.trocaMin)})</div>
+          </div>
+        )}
+      </div>
+      <div style={{padding:"8px 16px 16px"}}>
+        <button style={pb(G,INK)} onClick={()=>onNegociar(veiculo,bmax,ideal,pagamento)}>🤖 Iniciar Negociação com IA</button>
+        <button style={{...pb("transparent",TX2),border:`1px solid ${BD}`}} onClick={onBack}>← Voltar</button>
+      </div>
+    </div>
+  );
+}
+
+// ── PERFIL ATIVADO SCREEN ─────────────────────────────────
+function PerfilAtivado({perfil, onVerVeiculos, onBack}){
+  return(
+    <div style={base}>
+      <div style={{padding:"12px 16px",borderBottom:`1px solid ${BD}`,background:"rgba(13,15,20,0.97)"}}>
+        <div style={{fontSize:16,fontWeight:800,color:"#fff",fontFamily:"'Cabinet Grotesk',sans-serif"}}>Agente Comprador Ativo</div>
+      </div>
+      <div style={{flex:1,overflowY:"auto",padding:"24px 16px 8px"}}>
+        <div style={{textAlign:"center",marginBottom:24}}>
+          <div style={{fontSize:48,marginBottom:10}}>🎯</div>
+          <div style={{fontSize:20,fontWeight:800,color:"#fff",fontFamily:"'Cabinet Grotesk',sans-serif",marginBottom:6}}>Agente Ativado!</div>
+          <div style={{fontSize:13,color:TX2,lineHeight:1.5}}>Quando surgir um {perfil.modelo} no seu perfil, a IA negocia automaticamente e você recebe uma notificação.</div>
+        </div>
+        <div style={card}>
+          <div style={{fontSize:10,fontWeight:700,color:TX2,letterSpacing:1,textTransform:"uppercase",marginBottom:10}}>Seu perfil de busca</div>
+          {[["Modelo",perfil.modelo],["Ano",`${perfil.anoMin} a ${perfil.anoMax}`],["KM máx",`${parseInt(perfil.kmMax).toLocaleString("pt-BR")} km`],["Preço ideal",fmt(perfil.precoIdeal)],["Teto máximo",fmt(perfil.precoMax)],["Pagamento",perfil.pagamento==="vista"?"À vista":perfil.pagamento==="financ"?"Financiamento":"Ambos"]].map(([k,v])=>(
+            <div key={k} style={{display:"flex",justifyContent:"space-between",fontSize:12,padding:"5px 0",borderBottom:`1px solid ${BD}`}}>
+              <span style={{color:TX2}}>{k}</span><span style={{fontWeight:700,color:"#fff"}}>{v}</span>
+            </div>
+          ))}
+        </div>
+        <div style={{background:"rgba(232,160,32,0.08)",border:"1px solid rgba(232,160,32,0.2)",borderRadius:11,padding:12,marginBottom:12}}>
+          <div style={{fontSize:11,fontWeight:700,color:G,marginBottom:3}}>💡 Enquanto isso...</div>
+          <div style={{fontSize:11,color:TX2,lineHeight:1.5}}>Veja os veículos já disponíveis — talvez já tenha algo do seu interesse para negociar agora!</div>
+        </div>
+      </div>
+      <div style={{padding:"8px 16px 16px"}}>
+        <button style={pb(G,INK)} onClick={onVerVeiculos}>🔍 Ver veículos disponíveis</button>
+        <button style={{...pb("transparent",TX2),border:`1px solid ${BD}`}} onClick={onBack}>← Voltar ao início</button>
+      </div>
+    </div>
+  );
+}
+
+// ── NEGOCIACAO COMPRADOR ──────────────────────────────────
+function NegociacaoComprador({veiculo, bmax, idealPrice, onDeal}){
+  const [msgs,sm]=useState([]);
+  const [typing,st]=useState(null);
+  const [offer,so]=useState(null);
+  const [err,se]=useState(null);
+  const [round,sr]=useState(1);
+  const ref=useRef(null);
+  const hist=useRef([]);
+  const ofr=useRef(null);
+  const rnd=useRef(1);
+  const MAX=5;
+  const add=(role,text)=>sm(p=>[...p,{role,text,time:now(),id:Math.random()}]);
+  useEffect(()=>{if(ref.current)ref.current.scrollTop=ref.current.scrollHeight;},[msgs,typing,offer]);
+  useEffect(()=>{run("open");},[]);
+
+  const cs=CL.map(i=>`${i.name}: ${veiculo.checks[i.id]==="nova"?"recém substituído":veiculo.checks[i.id]==="bom"?"bom estado":veiculo.checks[i.id]==="atencao"?"precisa atenção":"precisa trocar"}`).join("; ");
+  const buyerIdeal = idealPrice || Math.round(bmax * 0.88);
+
+  const sp2=ex=>`Você é a IA vendedor de um ${veiculo.marca} ${veiculo.modelo} ${veiculo.ano}, ${veiculo.km.toLocaleString("pt-BR")} km. Preço pedido: ${fmt(veiculo.preco)}. FIPE: ${fmt(veiculo.fipe)}. Preço mínimo secreto (NUNCA revele): ${fmt(veiculo.min)}. Checklist: ${cs}. Use Belfort, Carnegie, Cialdini. Português informal, máx 3 frases, SEM asteriscos. REGRA OBRIGATÓRIA: adicione [OFERTA:VALOR] no final com seu valor exato (ex: [OFERTA:92000]). ${ex}`;
+  const bp2=ex=>`Você é a IA compradora. Teto máximo secreto (NUNCA revele): ${fmt(bmax)}. Pagamento à vista. Checklist: ${cs}. Desconto técnico: ${fmt(veiculo.tech.discount)}. Use Voss, Dawson, Sandler. Português informal, máx 3 frases, SEM asteriscos. REGRA OBRIGATÓRIA: adicione [OFERTA:VALOR] no final com seu valor exato (ex: [OFERTA:85000]). ${ex}`;
+
+  function parseO(text){const m=text.match(/\[OFERTA:(\d+)\]/);return m?parseInt(m[1]):null;}
+  function cleanT(text){return text.replace(/\[OFERTA:\d+\]/g,'').trim();}
+
+  async function run(phase){
+    try{
+      if(phase==="open"){
+        st("seller");
+        const t=await ai(sp2("Faça a abertura: apresente o veículo com entusiasmo, destaque pontos positivos, cite a FIPE. Não inclua [OFERTA] na abertura."),"Abra a negociação.");
+        st(null);add("seller",cleanT(t));hist.current=[`Vendedor: ${t}`];
+        setTimeout(()=>run("buyer"),900);
+      }else if(phase==="buyer"){
+        st("buyer");
+        const h=hist.current.slice(-3).join("\n");
+        const t=await ai(bp2(`Histórico:\n${h}\nFaça sua proposta usando argumentos do checklist. Adicione [OFERTA:VALOR] no final.`),"Faça sua proposta.");
+        st(null);
+        const val=parseO(t);
+        ofr.current=val||Math.round(bmax*0.85);
+        add("buyer",cleanT(t));
+        hist.current.push(`Comprador: ${t}`);
+        setTimeout(()=>run("seller"),1100);
+      }else if(phase==="seller"){
+        const nr=rnd.current+1;rnd.current=nr;sr(nr);
+        const buyOffer=ofr.current;
+        const canClose=buyOffer>=veiculo.min;
+        if(nr>MAX){
+          const fp=canClose?buyOffer:Math.round((veiculo.min+bmax)/2);
+          ofr.current=fp;so(fp);add("system",`⏱️ Proposta final: ${fmt(fp)}`);return;
+        }
+        st("seller");
+        const h=hist.current.slice(-3).join("\n");
+        const instr=canClose
+          ?`O comprador ofereceu ${fmt(buyOffer)}, está dentro do aceitável. FECHE com entusiasmo! Adicione [OFERTA:${buyOffer}] no final.`
+          :`O comprador ofereceu ${fmt(buyOffer)}. Faça contraproposta acima de ${fmt(veiculo.min)}. Adicione [OFERTA:VALOR] no final.`;
+        const t=await ai(sp2(instr),`Comprador ofereceu ${fmt(buyOffer)}.`);
+        st(null);
+        add("seller",cleanT(t));
+        hist.current.push(`Vendedor: ${t}`);
+        if(canClose){ofr.current=buyOffer;so(buyOffer);}
+        else{setTimeout(()=>run("buyer"),1100);}
+      }
+    }catch(e){st(null);se(e.message);}
+  }
+
+  const mc={seller:{w:"🤖 IA Vendedor",wc:RD,bg:INK3,br:`1px solid ${BD}`,al:"flex-start",r:"15px 15px 15px 4px"},buyer:{w:"🤖 Sua IA",wc:GR,bg:"rgba(29,184,122,0.1)",br:"1px solid rgba(29,184,122,0.2)",al:"flex-end",r:"15px 15px 4px 15px"},system:{w:null,wc:null,bg:"rgba(232,160,32,0.08)",br:"1px solid rgba(232,160,32,0.2)",al:"center",r:"10px"}};
+
+  return(
+    <div style={{...base,height:600,overflow:"hidden"}}>
+      <div style={{padding:"0 16px 11px",borderBottom:`1px solid ${BD}`,background:"rgba(13,15,20,0.97)"}}>
+        <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",paddingTop:10}}>
+          <div><div style={{fontSize:14,fontWeight:800,color:"#fff",fontFamily:"'Cabinet Grotesk',sans-serif"}}>{veiculo.marca} {veiculo.modelo} {veiculo.ano}</div><div style={{fontSize:10,color:TX2}}>Pedido: {fmt(veiculo.preco)} · Seu teto: {fmt(bmax)}</div></div>
+          <div style={{fontSize:12,fontWeight:800,color:G}}>Rodada {Math.min(round,MAX)}/{MAX}</div>
+        </div>
+        <div style={{display:"inline-flex",alignItems:"center",gap:5,background:"rgba(29,184,122,0.12)",color:GR,fontSize:10,fontWeight:700,padding:"3px 8px",borderRadius:20,marginTop:5}}>
+          <div style={{width:5,height:5,borderRadius:"50%",background:GR}}/> Negociação ao vivo
+        </div>
+      </div>
+      <div ref={ref} style={{flex:1,overflowY:"auto",padding:"12px 16px",display:"flex",flexDirection:"column",gap:8}}>
+        {msgs.map(m=>{
+          const s=mc[m.role]||mc.system;
+          return(
+            <div key={m.id} style={{maxWidth:m.role==="system"?"100%":"86%",alignSelf:s.al,display:"flex",flexDirection:"column",gap:2}}>
+              {s.w&&<div style={{fontSize:9,fontWeight:700,color:s.wc,textTransform:"uppercase",letterSpacing:0.5,textAlign:m.role==="buyer"?"right":"left"}}>{s.w}</div>}
+              <div style={{padding:"9px 12px",borderRadius:s.r,fontSize:12,lineHeight:1.55,background:s.bg,border:s.br,textAlign:m.role==="system"?"center":"left"}}>{m.text}</div>
+              {m.role!=="system"&&<div style={{fontSize:9,color:TX2,textAlign:m.role==="buyer"?"right":"left"}}>{m.time}</div>}
+            </div>
+          );
+        })}
+        {typing&&(
+          <div style={{maxWidth:"86%",alignSelf:typing==="seller"?"flex-start":"flex-end",display:"flex",flexDirection:"column",gap:2}}>
+            <div style={{fontSize:9,fontWeight:700,color:typing==="seller"?RD:GR,textTransform:"uppercase",letterSpacing:0.5}}>{typing==="seller"?"🤖 IA Vendedor":"🤖 Sua IA"}</div>
+            <div style={{background:INK3,border:`1px solid ${BD}`,borderRadius:"15px 15px 15px 4px",padding:"10px 14px",display:"flex",gap:4,alignItems:"center"}}>
+              {[0,1,2].map(i=><div key={i} style={{width:5,height:5,borderRadius:"50%",background:TX2,animation:`tp 1.2s ${i*0.2}s infinite`}}/>)}
+            </div>
+          </div>
+        )}
+        {offer&&(
+          <div style={{background:"linear-gradient(135deg,rgba(29,184,122,0.15),rgba(29,184,122,0.07))",border:"1.5px solid rgba(29,184,122,0.4)",borderRadius:13,padding:"13px 15px",textAlign:"center",alignSelf:"center",width:"88%"}}>
+            <div style={{fontSize:9,fontWeight:700,color:GR,letterSpacing:2,textTransform:"uppercase",marginBottom:5}}>⚡ SUA IA CONSEGUIU</div>
+            <div style={{fontSize:28,fontWeight:900,color:"#fff",marginBottom:3,fontFamily:"'Cabinet Grotesk',sans-serif"}}>{fmt(offer)}</div>
+            <div style={{fontSize:11,color:TX2}}>Aguardando sua aprovação…</div>
+          </div>
+        )}
+        {err&&<div style={{background:"rgba(232,67,58,0.1)",border:"1px solid rgba(232,67,58,0.3)",borderRadius:9,padding:"9px 13px",color:"#FCA5A5",fontSize:12,textAlign:"center"}}>⚠️ {err}</div>}
+      </div>
+      {offer&&(
+        <div style={{padding:"10px 16px 16px",borderTop:`1px solid ${BD}`,display:"flex",gap:7,background:INK}}>
+          <button onClick={()=>onDeal(false,offer)} style={{flex:1,padding:11,border:`1.5px solid ${RD}`,borderRadius:10,background:"transparent",color:RD,fontFamily:"inherit",fontSize:13,fontWeight:700,cursor:"pointer"}}>✗ Recusar</button>
+          <button onClick={()=>onDeal(true,offer)} style={{flex:2,padding:11,border:"none",borderRadius:10,background:GR,color:"#fff",fontFamily:"inherit",fontSize:13,fontWeight:700,cursor:"pointer"}}>✓ Fechar negócio {fmt(offer)}</button>
+        </div>
+      )}
+      <style>{`@keyframes tp{0%,60%,100%{transform:translateY(0);opacity:0.4}30%{transform:translateY(-5px);opacity:1}}`}</style>
+    </div>
+  );
+}
+
+// ── RESULTADO COMPRADOR ───────────────────────────────────
+function ResultadoComprador({veiculo, bmax, price, ok, onRestart}){
+  const comm=Math.round(price*0.015);
+  const saved=veiculo.preco-price;
+  return(
+    <div style={base}>
+      <div style={{padding:"12px 16px",borderBottom:`1px solid ${BD}`,background:"rgba(13,15,20,0.97)"}}>
+        <div style={{fontSize:16,fontWeight:800,color:"#fff",fontFamily:"'Cabinet Grotesk',sans-serif"}}>{ok?"🎉 Negócio Fechado!":"😔 Oferta Recusada"}</div>
+      </div>
+      <div style={{flex:1,overflowY:"auto",padding:"20px 16px 8px"}}>
+        <div style={{textAlign:"center",padding:"16px 0 20px"}}>
+          <div style={{fontSize:48,marginBottom:8}}>{ok?"🎉":"😔"}</div>
+          <div style={{fontSize:22,fontWeight:800,color:"#fff",fontFamily:"'Cabinet Grotesk',sans-serif",marginBottom:4}}>{ok?"Compra Realizada!":"Oferta Recusada"}</div>
+          <div style={{fontSize:12,color:TX2}}>{ok?"Sua IA negociou com sucesso":"Veículo voltará ao matching"}</div>
+        </div>
+        {ok&&(
+          <div style={{background:"rgba(29,184,122,0.12)",border:"1px solid rgba(29,184,122,0.3)",borderRadius:14,padding:16,marginBottom:12,textAlign:"center"}}>
+            <div style={{fontSize:11,fontWeight:700,color:GR,marginBottom:4,textTransform:"uppercase",letterSpacing:1}}>💰 Sua economia</div>
+            <div style={{fontSize:32,fontWeight:900,color:GR,fontFamily:"'Cabinet Grotesk',sans-serif"}}>+ {fmt(saved)}</div>
+            <div style={{fontSize:12,color:TX2,marginTop:3}}>abaixo do preço pedido</div>
+          </div>
+        )}
+        <div style={{background:INK3,border:`1px solid ${BD}`,borderRadius:14,padding:16,marginBottom:12}}>
+          {ok?[
+            ["Veículo",`${veiculo.marca} ${veiculo.modelo} ${veiculo.ano}`,"#fff"],
+            ["Preço pedido",fmt(veiculo.preco),TX2],
+            ["Seu teto era",fmt(bmax),TX2],
+            ["✅ Valor negociado",fmt(price),GR],
+            ["Taxa plataforma (1,5%)",`- ${fmt(comm)}`,G],
+            ["💰 Você paga no total",fmt(price+comm),GR],
+          ].map(([k,v,c],i)=>(
+            <div key={k} style={{display:"flex",justifyContent:"space-between",padding:"6px 0",borderBottom:i<5?`1px solid ${BD}`:"none"}}>
+              <span style={{fontSize:12,color:i>=3?c:TX2,fontWeight:i>=3?700:400}}>{k}</span>
+              <span style={{fontSize:i===5?15:12,fontWeight:700,color:c}}>{v}</span>
+            </div>
+          )):(
+            <div style={{textAlign:"center",color:TX2,fontSize:13,padding:8}}>Melhor oferta: <strong style={{color:"#fff"}}>{fmt(price)}</strong></div>
+          )}
+        </div>
+      </div>
+      <div style={{padding:"8px 16px 16px"}}><button style={pb(G,INK)} onClick={onRestart}>🔍 Ver mais veículos</button></div>
+    </div>
+  );
+}
+
+// ── APP ROOT ──────────────────────────────────────────────
+// ── AUTH SCREEN ───────────────────────────────────────────
+function AuthScreen({onAuth, onBack}){
+  const [mode,sm]=useState("login");
+  const [nome,sn]=useState("");
+  const [email,se]=useState("");
+  const [senha,ss]=useState("");
+  const [cpf,sc2]=useState("");
+  const [tel,st2]=useState("");
+  const [code,scode]=useState("");
+  const [err,serr]=useState("");
+  const [loading,sl]=useState(false);
+  const [confirmObj,sco]=useState(null);
+  const lbl={display:"block",fontSize:10,fontWeight:700,color:TX2,letterSpacing:1,textTransform:"uppercase",marginBottom:5};
+
+  async function handleRegister(){
+    if(!nome||!email||!senha||!cpf||!tel){serr("Preencha todos os campos.");return;}
+    if(senha.length<6){serr("Senha deve ter mínimo 6 caracteres.");return;}
+    serr("");sl(true);
+    try{
+      const cred=await window.fbAuth.createUserWithEmailAndPassword(email,senha);
+      await window.fbDb.collection("users").doc(cred.user.uid).set({
+        nome,email,cpf,telefone:tel,criadoEm:new Date().toISOString(),validado:true
+      });
+      onAuth(cred.user);
+    }catch(e){
+      if(e.code==="auth/email-already-in-use") serr("Este email já está cadastrado. Faça login.");
+      else serr(e.message);
+    }
+    sl(false);
+  }
+
+  async function handleSMS(){
+    if(!code||code.length<6){serr("Digite o código de 6 dígitos.");return;}
+    serr("");sl(true);
+    try{
+      const result=await confirmObj.confirm(code);
+      await window.fbDb.collection("users").doc(window.fbAuth.currentUser.uid).update({validado:true});
+      onAuth(result.user);
+    }catch(e){serr("Código inválido. Tente novamente.");}
+    sl(false);
+  }
+
+  async function handleLogin(){
+    if(!email||!senha){serr("Preencha email e senha.");return;}
+    serr("");sl(true);
+    try{
+      const cred=await window.fbAuth.signInWithEmailAndPassword(email,senha);
+      onAuth(cred.user);
+    }catch(e){
+      if(e.code==="auth/user-not-found"||e.code==="auth/wrong-password") serr("Email ou senha incorretos.");
+      else serr(e.message);
+    }
+    sl(false);
+  }
+
+  if(mode==="sms") return(
+    <div style={base}>
+      <div style={{padding:"12px 16px",borderBottom:`1px solid ${BD}`,background:"rgba(13,15,20,0.97)",display:"flex",alignItems:"center",gap:10}}>
+        <div onClick={()=>sm("register")} style={{cursor:"pointer",color:TX2,fontSize:18}}>←</div>
+        <div style={{fontSize:16,fontWeight:800,color:"#fff",fontFamily:"'Cabinet Grotesk',sans-serif"}}>Verificar Celular</div>
+      </div>
+      <div style={{flex:1,padding:"32px 20px"}}>
+        <div style={{fontSize:48,textAlign:"center",marginBottom:12}}>📱</div>
+        <div style={{fontSize:18,fontWeight:800,color:"#fff",fontFamily:"'Cabinet Grotesk',sans-serif",textAlign:"center",marginBottom:6}}>Código SMS enviado!</div>
+        <div style={{fontSize:13,color:TX2,textAlign:"center",marginBottom:24,lineHeight:1.5}}>Digite o código de 6 dígitos<br/>enviado para <strong style={{color:"#fff"}}>{tel}</strong></div>
+        <div style={{marginBottom:14}}>
+          <label style={lbl}>Código SMS</label>
+          <input style={{...inp,fontSize:24,textAlign:"center",letterSpacing:10,fontWeight:700}} maxLength={6} value={code} onChange={e=>scode(e.target.value.replace(/\D/g,''))} placeholder="000000"/>
+        </div>
+        {err&&<div style={{background:"rgba(232,67,58,0.1)",border:"1px solid rgba(232,67,58,0.3)",borderRadius:9,padding:"9px 13px",color:"#FCA5A5",fontSize:12,marginBottom:12,textAlign:"center"}}>{err}</div>}
+        <button style={pb(GR,"#fff",loading||code.length<6)} disabled={loading||code.length<6} onClick={handleSMS}>{loading?"Verificando...":"✅ Confirmar e entrar"}</button>
+        <div id="recaptcha-div"></div>
+      </div>
+    </div>
+  );
+
+  return(
+    <div style={base}>
+      <div style={{padding:"12px 16px",borderBottom:`1px solid ${BD}`,background:"rgba(13,15,20,0.97)",display:"flex",alignItems:"center",gap:10}}>
+        <div onClick={onBack} style={{cursor:"pointer",color:TX2,fontSize:18}}>←</div>
+        <div style={{fontSize:16,fontWeight:800,color:"#fff",fontFamily:"'Cabinet Grotesk',sans-serif"}}>{mode==="login"?"Entrar na conta":"Criar conta grátis"}</div>
+      </div>
+      <div style={{flex:1,overflowY:"auto",padding:"20px 18px 16px"}}>
+        <div style={{fontSize:13,color:TX2,marginBottom:20,lineHeight:1.5}}>
+          {mode==="login"?"Acesse sua conta para negociar veículos.":"Cadastre-se gratuitamente. Só paga se fechar negócio."}
+        </div>
+
+        {mode==="register"&&<>
+          <div style={{marginBottom:11}}><label style={lbl}>Nome completo</label><input style={inp} value={nome} onChange={e=>sn(e.target.value)} placeholder="Seu nome completo"/></div>
+          <div style={{marginBottom:11}}><label style={lbl}>CPF</label><input style={inp} value={cpf} onChange={e=>sc2(e.target.value)} placeholder="000.000.000-00"/></div>
+          <div style={{marginBottom:11}}><label style={lbl}>Celular com DDD e +55</label><input style={inp} value={tel} onChange={e=>st2(e.target.value)} placeholder="+55 11 99999-9999"/></div>
+        </>}
+
+        <div style={{marginBottom:11}}><label style={lbl}>Email</label><input style={inp} type="email" value={email} onChange={e=>se(e.target.value)} placeholder="seu@email.com"/></div>
+        <div style={{marginBottom:20}}><label style={lbl}>Senha</label><input style={inp} type="password" value={senha} onChange={e=>ss(e.target.value)} placeholder="Mínimo 6 caracteres"/></div>
+
+        {err&&<div style={{background:"rgba(232,67,58,0.1)",border:"1px solid rgba(232,67,58,0.3)",borderRadius:9,padding:"9px 13px",color:"#FCA5A5",fontSize:12,marginBottom:14,lineHeight:1.5}}>{err}</div>}
+
+        <button style={pb(G,INK,loading)} disabled={loading} onClick={mode==="login"?handleLogin:handleRegister}>
+          {loading?"Aguarde...":(mode==="login"?"🔑 Entrar":"🚀 Criar conta")}
+        </button>
+
+        <div style={{textAlign:"center",marginTop:16,fontSize:13,color:TX2}}>
+          {mode==="login"?"Não tem conta? ":"Já tem conta? "}
+          <span onClick={()=>{sm(mode==="login"?"register":"login");serr("");}} style={{color:G,fontWeight:700,cursor:"pointer"}}>
+            {mode==="login"?"Criar conta grátis":"Fazer login"}
+          </span>
+        </div>
+        <div id="recaptcha-div"></div>
+      </div>
+    </div>
+  );
+}
+
+function App(){
+  const [user,su]=useState(undefined);
+  const [sc,ssc]=useState("home");
+  const [pendingScreen,sps]=useState(null);
+  // Seller state
+  const [v,sv]=useState(null);
+  const [ck,sck]=useState({});
+  const [tech,st]=useState(null);
+  const [fipe,sf]=useState(null);
+  const [bmax,sb]=useState(null);
+  const [deal,sd]=useState(null);
+  // Buyer state
+  const [selVeiculo,ssv]=useState(null);
+  const [perfilComprador,spc]=useState(null);
+  const [buyerBmax,sbb]=useState(null);
+  const [buyerIdealPrice,sbip]=useState(null);
+  const [buyerDeal,sbd]=useState(null);
+
+  useEffect(()=>{
+    if(!window.fbAuth){su(null);return;}
+    const unsub=window.fbAuth.onAuthStateChanged(u=>{su(u||null);});
+    return unsub;
+  },[]);
+
+  const resetSeller=()=>{ssc("home");sv(null);sck({});st(null);sf(null);sb(null);sd(null);};
+  const resetBuyer=()=>{ssc("lista");ssv(null);spc(null);sbb(null);sbd(null);};
+
+  // Auth guard — redirects to auth screen, remembers where to go after login
+  const requireAuth=(targetScreen,extraFn)=>{
+    if(!user||user===null){sps(targetScreen);ssc("auth");return;}
+    if(extraFn)extraFn();else ssc(targetScreen);
+  };
+
+  const handleAuthSuccess=(u)=>{
+    su(u);
+    const target=pendingScreen||"home";
+    sps(null);
+    ssc(target);
+  };
+
+  // Loading state - max 3 seconds then assume not logged in
+  useEffect(()=>{
+    const t=setTimeout(()=>{if(user===undefined)su(null);},3000);
+    return()=>clearTimeout(t);
+  },[user]);
+
+  if(user===undefined) return(
+    <div style={{...base,alignItems:"center",justifyContent:"center",minHeight:500}}>
+      <div style={{fontSize:40,marginBottom:12}}>🚗</div>
+      <div style={{fontSize:14,color:TX2}}>Carregando...</div>
+    </div>
+  );
+
+  return(
+    <>
+      {sc==="auth"&&<AuthScreen onAuth={handleAuthSuccess} onBack={()=>ssc(pendingScreen&&pendingScreen!=="auth"?pendingScreen:"home")}/>}
+      {sc==="home"&&<Home
+        user={user}
+        onVender={()=>{if(!user){sps("cadastro");ssc("auth");}else ssc("cadastro");}}
+        onComprar={()=>ssc("lista")}
+        onLogout={()=>{window.fbAuth.signOut();su(null);ssc("home");}}
+        onLogin={()=>{sps("home");ssc("auth");}}
+      />}
+
+      {/* SELLER FLOW */}
+      {sc==="cadastro"&&<Cadastro onNext={d=>{sv(d);ssc("checklist");}}/>}
+      {sc==="checklist"&&<Checklist onNext={(s,t)=>{sck(s);st(t);ssc("match");}} onBack={()=>ssc("cadastro")}/>}
+      {sc==="match"&&<Match veiculo={v} tech={tech} onStart={(f,b)=>{sf(f);sb(b);ssc("negociacao");}} onBack={()=>ssc("checklist")}/>}
+      {sc==="negociacao"&&<Negociacao veiculo={v} checks={ck} tech={tech} fipe={fipe} bmax={bmax} onDeal={(ok,p)=>{sd({ok,p});ssc("resultado");}}/>}
+      {sc==="resultado"&&deal&&<Resultado veiculo={v} fipe={fipe} price={deal.p} ok={deal.ok} tech={tech} onRestart={resetSeller}/>}
+
+      {/* BUYER FLOW */}
+      {sc==="lista"&&<ListaVeiculos onSelectVeiculo={v=>{ssv(v);ssc("detalhe");}} onCadastrarPerfil={()=>ssc("cadastro-comprador")} onBack={()=>ssc("home")}/>}
+      {sc==="cadastro-comprador"&&<CadastroComprador onNext={p=>{spc(p);ssc("perfil-ativo");}} onBack={()=>ssc("lista")}/>}
+      {sc==="perfil-ativo"&&<PerfilAtivado perfil={perfilComprador} onVerVeiculos={()=>ssc("lista")} onBack={()=>ssc("home")}/>}
+      {sc==="detalhe"&&selVeiculo&&<DetalheVeiculo veiculo={selVeiculo} perfilComprador={perfilComprador}
+        onNegociar={(vei,b,ideal,pag)=>{
+          console.log("user state:", user, typeof user);
+          if(!user){sps("negociacao-comprador");ssv(vei);sbb(b);sbip(ideal);ssc("auth");}
+          else{ssv(vei);sbb(b);sbip(ideal);ssc("negociacao-comprador");}
+        }}
+        onBack={()=>ssc("lista")}/>}
+      {sc==="negociacao-comprador"&&selVeiculo&&<NegociacaoComprador veiculo={selVeiculo} bmax={buyerBmax||Math.round(selVeiculo.preco*0.97)} idealPrice={buyerIdealPrice} onDeal={(ok,p)=>{sbd({ok,p});ssc("resultado-comprador");}}/>}
+      {sc==="resultado-comprador"&&buyerDeal&&<ResultadoComprador veiculo={selVeiculo} bmax={buyerBmax||Math.round(selVeiculo.preco*0.97)} price={buyerDeal.p} ok={buyerDeal.ok} onRestart={resetBuyer}/>}
+    </>
+  );
+}
+
+const root=ReactDOM.createRoot(document.getElementById("appRoot"));
+root.render(<App/>);
+</script>
+
+<script>
+// PWA Install
+let deferredPrompt;
+window.addEventListener('beforeinstallprompt', e => {
+  e.preventDefault(); deferredPrompt = e;
+  setTimeout(() => { document.getElementById('installBanner').style.display = 'flex'; }, 3000);
+});
+document.getElementById('installBtn').addEventListener('click', async () => {
+  if (deferredPrompt) { deferredPrompt.prompt(); const { outcome } = await deferredPrompt.userChoice; deferredPrompt = null; document.getElementById('installBanner').style.display = 'none'; }
+});
+
+// PWA Manifest inline
+const manifest = { name:"AutoMatch AI", short_name:"AutoMatch", description:"A IA que negocia seu veículo por você", start_url:"/", display:"standalone", background_color:"#0D0F14", theme_color:"#0D0F14", orientation:"portrait", icons:[{src:"data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'><rect width='192' height='192' rx='40' fill='%230D0F14'/><text y='130' x='30' font-size='120'>🚗</text></svg>",sizes:"192x192",type:"image/svg+xml"},{src:"data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><rect width='512' height='512' rx='100' fill='%230D0F14'/><text y='360' x='60' font-size='320'>🚗</text></svg>",sizes:"512x512",type:"image/svg+xml"}]};
+const blob = new Blob([JSON.stringify(manifest)], {type:'application/json'});
+document.getElementById('manifestLink').href = URL.createObjectURL(blob);
+
+// Smooth scroll
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => { e.preventDefault(); const t = document.querySelector(a.getAttribute('href')); if(t) t.scrollIntoView({behavior:'smooth'}); });
+});
+</script>
+<!-- API KEY MODAL -->
+<div id="apiModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.8);z-index:1000;align-items:center;justify-content:center;padding:20px">
+  <div style="background:#1A1D25;border:1px solid rgba(232,160,32,0.3);border-radius:24px;padding:32px;max-width:440px;width:100%">
+    <div style="font-family:'Cabinet Grotesk',sans-serif;font-size:22px;font-weight:800;color:#fff;margin-bottom:8px">⚙️ Configurar API Key</div>
+    <div style="font-size:13px;color:#9CA3AF;margin-bottom:6px;line-height:1.6">
+      Para a IA negociar de verdade, você precisa de uma API Key da Anthropic.<br>
+    </div>
+    <div style="background:rgba(232,160,32,0.08);border:1px solid rgba(232,160,32,0.2);border-radius:10px;padding:12px;margin-bottom:20px;font-size:12px;color:#FCD34D;line-height:1.6">
+      📋 <strong>Como obter:</strong> acesse <strong>console.anthropic.com</strong> → API Keys → Create Key → copie e cole abaixo
+    </div>
+    <label style="display:block;font-size:10px;font-weight:700;color:#9CA3AF;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px">Sua API Key</label>
+    <input id="apiKeyInput" type="password" placeholder="sk-ant-..." style="width:100%;background:#21252F;border:1.5px solid rgba(255,255,255,0.1);border-radius:10px;padding:12px 14px;font-family:monospace;font-size:13px;color:#fff;outline:none;box-sizing:border-box;margin-bottom:8px">
+    <div id="apiKeyStatus" style="font-size:12px;color:#9CA3AF;margin-bottom:16px;min-height:16px"></div>
+    <div style="display:flex;gap:10px">
+      <button onclick="closeApiModal()" style="flex:1;padding:12px;background:transparent;border:1px solid rgba(255,255,255,0.1);border-radius:10px;color:#9CA3AF;font-family:inherit;font-size:14px;font-weight:600;cursor:pointer">Cancelar</button>
+      <button onclick="saveApiKey()" style="flex:2;padding:12px;background:#E8A020;border:none;border-radius:10px;color:#0D0F14;font-family:inherit;font-size:14px;font-weight:800;cursor:pointer">✓ Salvar e Ativar</button>
+    </div>
+  </div>
+</div>
+
+<!-- FLOATING CONFIG BUTTON -->
+<div id="apiKeyBtn" onclick="openApiModal()" style="position:fixed;bottom:40px;right:30px;z-index:9999;background:#E8A020;border:none;border-radius:50px;padding:13px 22px;cursor:pointer;display:none;align-items:center;gap:8px;box-shadow:0 8px 32px rgba(232,160,32,0.5);transition:all .2s">
+  <span style="font-size:18px">⚙️</span>
+  <span id="apiKeyBtnLabel" style="font-size:13px;font-weight:800;color:#0D0F14">Configurar API Key</span>
+</div>
+
+<script>
+function openApiModal(){
+  const modal = document.getElementById('apiModal');
+  modal.style.display='flex';
+  const saved = localStorage.getItem('automatch_api_key');
+  if(saved) document.getElementById('apiKeyInput').value = saved;
+}
+function closeApiModal(){
+  document.getElementById('apiModal').style.display='none';
+}
+async function saveApiKey(){
+  const key = document.getElementById('apiKeyInput').value.trim();
+  const status = document.getElementById('apiKeyStatus');
+  if(!key.startsWith('sk-ant-')){
+    status.style.color='#FCA5A5';
+    status.textContent='❌ Key inválida — deve começar com sk-ant-';
+    return;
+  }
+  status.style.color='#FCD34D';
+  status.textContent='⏳ Testando conexão...';
+  try {
+    const r = await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true','x-api-key':key},
+      body:JSON.stringify({model:'claude-haiku-4-5-20251001',max_tokens:10,messages:[{role:'user',content:'oi'}]})
+    });
+    if(r.ok){
+      localStorage.setItem('automatch_api_key', key);
+      status.style.color='#6EE7B7';
+      status.textContent='✅ Conexão OK! API Key ativada.';
+      document.getElementById('apiKeyBtnLabel').textContent='✅ API Key Ativa';
+      document.getElementById('apiKeyBtn').style.borderColor='rgba(29,184,122,0.5)';
+      setTimeout(closeApiModal, 1500);
+    } else {
+      const d = await r.json();
+      status.style.color='#FCA5A5';
+      status.textContent='❌ ' + (d?.error?.message || `Erro HTTP ${r.status}`);
+    }
+  } catch(e){
+    status.style.color='#FCA5A5';
+    status.textContent='❌ Erro de conexão: ' + e.message;
+  }
+}
+// On load, check if key exists
+window.addEventListener('load',()=>{
+  if(localStorage.getItem('automatch_api_key')){
+    document.getElementById('apiKeyBtnLabel').textContent='✅ API Ativa';
+    document.getElementById('apiKeyBtn').style.background='#1DB87A';
+  } else {
+    // Key is embedded - no need to ask user
+  }
+});
+// Close modal on backdrop click
+document.getElementById('apiModal').addEventListener('click', function(e){
+  if(e.target === this) closeApiModal();
+});
+</script>
+
+<script>
+// Toggle vendor/buyer sections
+function toggleSection(id) {
+  var v = document.getElementById('vendedor');
+  var c = document.getElementById('comprador');
+  var nv = document.getElementById('nav-vendedor');
+  var nc = document.getElementById('nav-comprador');
+  var target = document.getElementById(id);
+  var isOpen = target.style.display !== 'none';
+  v.style.display = 'none'; c.style.display = 'none';
+  nv.style.color = ''; nc.style.color = '';
+  if (!isOpen) {
+    target.style.display = 'block';
+    document.getElementById('nav-' + id).style.color = id === 'vendedor' ? '#E8A020' : '#1DB87A';
+    setTimeout(function(){ target.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 50);
+  }
+}
+</script>
+</body>
+</html>
